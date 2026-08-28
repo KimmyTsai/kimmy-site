@@ -1,0 +1,87 @@
+---
+import { localePath, useTranslations, localeNames, LOCALES, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  pathKey: string;
+  availableIn?: readonly Locale[];
+}
+const { locale, pathKey, availableIn = LOCALES } = Astro.props;
+const t = useTranslations(locale);
+
+const nav = [
+  { key: '/about', label: t('nav.about') },
+  { key: '/projects', label: t('nav.projects') },
+  { key: '/competitions', label: t('nav.competitions') },
+  { key: '/blog', label: t('nav.blog') },
+];
+
+const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (key: string) => {
+  const full = localePath(locale, key).replace(/\/+$/, '') || '/';
+  return here === full || here.startsWith(full + '/');
+};
+
+const other = LOCALES.find((l) => l !== locale)!;
+const otherAvailable = availableIn.includes(other);
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <button
+      class="brand"
+      type="button"
+      id="probe-toggle"
+      aria-pressed="false"
+      title="Probe mode"
+      aria-label="Toggle probe mode"
+    >
+      <svg class="chip" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+        <rect x="4" y="4" width="8" height="8" rx="0.5" />
+        <path d="M6.5 1.5v2.5M9.5 1.5v2.5M6.5 12v2.5M9.5 12v2.5M1.5 6.5h2.5M1.5 9.5h2.5M12 6.5h2.5M12 9.5h2.5" />
+      </svg>
+      <span>KIMMY</span>
+    </button>
+
+    <nav class="nav" aria-label={locale === 'zh-tw' ? '主選單' : 'Main'}>
+      {
+        nav.map((item) => (
+          <a
+            href={localePath(locale, item.key)}
+            aria-current={isCurrent(item.key) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+
+      <span class="toolbar">
+        {
+          otherAvailable ? (
+            <a
+              class="tool-btn"
+              href={localePath(other, pathKey)}
+              hreflang={other}
+              title={locale === 'zh-tw' ? 'Switch to English' : '切換到中文'}
+            >
+              {localeNames[other]}
+            </a>
+          ) : (
+            <span class="tool-btn" style="opacity:.35" title="尚無此語言版本">
+              {localeNames[other]}
+            </span>
+          )
+        }
+
+        <button class="tool-btn" type="button" id="theme-toggle" aria-label="Toggle colour theme">
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
+            <path
+              class="sun"
+              d="M8 4.6A3.4 3.4 0 1 0 8 11.4 3.4 3.4 0 0 0 8 4.6Zm0-3.6a.7.7 0 0 1 .7.7v1a.7.7 0 0 1-1.4 0v-1A.7.7 0 0 1 8 1Zm0 12.6a.7.7 0 0 1 .7.7v1a.7.7 0 0 1-1.4 0v-1a.7.7 0 0 1 .7-.7ZM15 8a.7.7 0 0 1-.7.7h-1a.7.7 0 0 1 0-1.4h1A.7.7 0 0 1 15 8ZM2.7 8a.7.7 0 0 1-.7.7H1a.7.7 0 0 1 0-1.4h1a.7.7 0 0 1 .7.7Zm10.2-5.2a.7.7 0 0 1 0 1L12.2 4.5a.7.7 0 1 1-1-1l.7-.7a.7.7 0 0 1 1 0ZM4.8 11.5a.7.7 0 0 1 0 1l-.7.7a.7.7 0 0 1-1-1l.7-.7a.7.7 0 0 1 1 0Zm8.1 1.7a.7.7 0 0 1-1 0l-.7-.7a.7.7 0 1 1 1-1l.7.7a.7.7 0 0 1 0 1ZM4.5 3.8a.7.7 0 0 1-1 0l-.7-.7a.7.7 0 0 1 1-1l.7.7a.7.7 0 0 1 0 1Z"
+            ></path>
+          </svg>
+        </button>
+      </span>
+    </nav>
+  </div>
+</header>

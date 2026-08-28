@@ -1,0 +1,62 @@
+---
+import { useTranslations, formatDate, isoDate, type Locale } from '../i18n/ui';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entries: CollectionEntry<'competitions'>[];
+  locale: Locale;
+}
+const { entries, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<ol class="log" data-probe-label="contest log">
+  {
+    entries.map((e) => {
+      const d = e.data;
+      return (
+        <li class={d.highlight ? 'is-highlight' : ''}>
+          <time class="log-date" datetime={isoDate(d.date)}>
+            {formatDate(d.date, locale)}
+            {d.host ? ` · ${d.host}` : ''}
+          </time>
+
+          <h3 class="log-title">{d.title}</h3>
+          {d.result && (
+            <span class={`log-result${d.highlight ? '' : ' is-plain'}`}>{d.result}</span>
+          )}
+
+          {d.summary && <p class="log-body">{d.summary}</p>}
+
+          <p class="log-fields">
+            {d.role && (
+              <span>
+                <b>{t('label.role')}</b> <span>{d.role}</span>
+              </span>
+            )}
+            {d.team && (
+              <span>
+                <b>{t('label.team')}</b> <span>{d.team}</span>
+              </span>
+            )}
+            {d.stack.length > 0 && (
+              <span>
+                <b>{t('label.stack')}</b> <span>{d.stack.join(' · ')}</span>
+              </span>
+            )}
+            {d.repo && (
+              <a class="link" href={d.repo} rel="noopener">
+                {t('action.repo')} ↗
+              </a>
+            )}
+            {d.link && (
+              <a class="link" href={d.link} rel="noopener">
+                {t('action.link')} ↗
+              </a>
+            )}
+          </p>
+        </li>
+      );
+    })
+  }
+</ol>

@@ -1,0 +1,47 @@
+{
+  "_comment": "關於頁的時間軸。kind 可填 education / research / work / activity，只影響左側標記顏色。",
+  "items": [
+    {
+      "period": "2026.08",
+      "title": "Inbound Mobility Program",
+      "org": "馬來亞大學 資訊科學與科技學院（FCSIT）",
+      "kind": "education",
+      "detail": "為期七天的短期交流，跨校修課與實驗室參訪；申請時以跨領域修課背景作為主要區隔。"
+    },
+    {
+      "period": "2025.09 – 2026.06",
+      "title": "畢業專題：SLH-DSA 後量子簽章之 RISC-V 指令集擴充",
+      "org": "成大資工，指導教授：陳培殷",
+      "kind": "research",
+      "detail": "在 OpenHW CV32E40P 上擴充 320-bit SIMD 暫存器與自訂指令加速 Keccak / SHAKE256。我負責 FPGA 整合、bitstream 燒錄與硬體實測。"
+    },
+    {
+      "period": "2025 – 2026",
+      "title": "黑客松連續參賽",
+      "org": "梅竹黑客松 · Sea x OpenAI Codex Hackathon · DevJam",
+      "kind": "activity",
+      "detail": "從硬體專題延伸到 Web 與 AI Agent 應用，練習在 48 小時內把一個想法收斂成可以 demo 的東西。"
+    },
+    {
+      "period": "在學期間",
+      "title": "英文家教",
+      "org": "個人接案",
+      "kind": "work",
+      "detail": "一對一教學，主要處理文法觀念與閱讀理解。TOEIC 915。"
+    },
+    {
+      "period": "在學期間",
+      "title": "系桌球隊 · 單車節系代表",
+      "org": "成大資工系",
+      "kind": "activity",
+      "detail": "代表系上參加校內單車節，並在系桌球隊出賽。另有棒球場售票工讀經驗。"
+    },
+    {
+      "period": "2022 –",
+      "title": "資訊工程學系 學士班",
+      "org": "國立成功大學",
+      "kind": "education",
+      "detail": "修課橫跨編譯器設計、計算機組織與結構、數位系統、嵌入式系統，另外選修國際金融市場與國際安全相關課程。"
+    }
+  ]
+}

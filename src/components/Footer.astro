@@ -1,0 +1,40 @@
+---
+import { localePath, useTranslations, type Locale } from '../i18n/ui';
+import site from '../data/site.json';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+const built = new Date().toISOString().slice(0, 16).replace('T', ' ');
+const socials = site.socials.filter((s) => s.url);
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="rows">
+      <div>
+        <p>
+          {t('footer.built')} ·{' '}
+          <a class="link" href={site.repoUrl} rel="me noopener">source</a>
+        </p>
+        <p style="margin-top:.35rem">
+          © {year} Kimmy · {t('footer.rights')}{' '}
+          <a class="link" href={site.licenseUrl} rel="license noopener">{site.license}</a>
+        </p>
+      </div>
+
+      <div class="links">
+        {socials.map((s) => <a href={s.url} rel="me noopener">{s.label}</a>)}
+        <a href={localePath(locale, '/rss.xml')}>RSS</a>
+      </div>
+    </div>
+
+    {/* 彩蛋提示：藏在頁尾的註解行，看得懂的人才會去試 */}
+    <p class="sig">
+      // build {built} UTC · press <kbd>↑↑↓↓←→←→BA</kbd> if you know what to do
+    </p>
+  </div>
+</footer>

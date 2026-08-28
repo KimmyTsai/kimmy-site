@@ -1,0 +1,25 @@
+---
+interface Props {
+  spec: { k: string; v: string }[];
+  caption?: string;
+  right?: string;
+}
+const { spec, caption = 'Spec sheet', right = 'REV 2026.08' } = Astro.props;
+---
+
+<aside class="spec" data-probe-label="spec sheet">
+  <div class="spec-title">
+    <span>{caption}</span>
+    <span>{right}</span>
+  </div>
+  <dl>
+    {
+      spec.map((row) => (
+        <>
+          <dt>{row.k}</dt>
+          <dd>{row.v}</dd>
+        </>
+      ))
+    }
+  </dl>
+</aside>

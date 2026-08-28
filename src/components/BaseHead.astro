@@ -1,0 +1,85 @@
+---
+import { localePath, htmlLang, LOCALES, type Locale } from '../i18n/ui';
+import site from '../data/site.json';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  /** 不含語系前綴的路徑，例：'/blog/my-post'。用來產生 hreflang 與語言切換 */
+  pathKey: string;
+  ogType?: string;
+  /** 只有這些語系有這個頁面；預設兩種都有 */
+  availableIn?: readonly Locale[];
+}
+
+const {
+  title,
+  description,
+  locale,
+  pathKey,
+  ogType = 'website',
+  availableIn = LOCALES,
+} = Astro.props;
+
+const canonical = new URL(localePath(locale, pathKey), Astro.site ?? 'https://example.com');
+const ogImage = new URL('/og.png', Astro.site ?? 'https://example.com');
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{
+  availableIn.map((l) => (
+    <link
+      rel="alternate"
+      hreflang={htmlLang[l]}
+      href={new URL(localePath(l, pathKey), Astro.site ?? 'https://example.com')}
+    />
+  ))
+}
+<link
+  rel="alternate"
+  hreflang="x-default"
+  href={new URL(localePath('zh-tw', pathKey), Astro.site ?? 'https://example.com')}
+/>
+
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={locale === 'zh-tw' ? 'zh_TW' : 'en_US'} />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${site.domain} — RSS`}
+  href={localePath(locale, '/rss.xml')}
+/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<meta name="theme-color" content="#faf7f1" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d0e11" media="(prefers-color-scheme: dark)" />
+<meta name="generator" content={Astro.generator} />
+
+{/* 在畫面繪製前套用主題，避免深色模式閃白 */}
+<script is:inline>
+  (() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      const sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : sys;
+      if (localStorage.getItem('crt') === 'on') document.documentElement.dataset.crt = 'on';
+    } catch {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>

@@ -1,0 +1,47 @@
+---
+import { langColor, type Repo } from '../lib/github';
+import { useTranslations, type Locale } from '../i18n/ui';
+import site from '../data/site.json';
+
+interface Props {
+  repos: Repo[];
+  ok: boolean;
+  locale: Locale;
+}
+const { repos, ok, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<div class="repos" data-probe-label="github feed">
+  <div class="repos-head">
+    <span class="dot"></span>
+    <span>{site.github}@github ~ $ ls -1</span>
+  </div>
+
+  {
+    repos.map((r) => (
+      <a class="repo" href={r.url} rel="noopener">
+        <span class="repo-name">{r.name}</span>
+        {r.description && <span class="repo-desc">{r.description}</span>}
+        <span class="repo-meta">
+          {r.language && (
+            <span>
+              <i class="lang-dot" style={`background:${langColor(r.language)}`} />
+              {r.language}
+            </span>
+          )}
+          {r.stars > 0 && <span>★ {r.stars}</span>}
+          {r.updatedAt && <span>{r.updatedAt.slice(0, 10)}</span>}
+        </span>
+      </a>
+    ))
+  }
+</div>
+
+{
+  !ok && (
+    <p class="note" style="margin-top:.75rem">
+      {t('repos.error')}
+    </p>
+  )
+}

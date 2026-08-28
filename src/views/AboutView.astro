@@ -1,0 +1,81 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import SpecSheet from '../components/SpecSheet.astro';
+import type { Locale } from '../i18n/ui';
+import zhProfile from '../data/profile.zh-tw.json';
+import enProfile from '../data/profile.en.json';
+import zhExp from '../data/experience.zh-tw.json';
+import enExp from '../data/experience.en.json';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const p = locale === 'zh-tw' ? zhProfile : enProfile;
+const exp = locale === 'zh-tw' ? zhExp : enExp;
+
+const entry = await getEntry('pages', `${locale}/about`);
+const Content = entry ? (await render(entry)).Content : null;
+
+const title = locale === 'zh-tw' ? '關於' : 'About';
+---
+
+<Base
+  title={`${title} — ${p.name}`}
+  description={p.intro}
+  locale={locale}
+  pathKey="/about"
+  ogType="profile"
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>{title}</h1>
+      <p class="lede">{p.tagline}</p>
+    </header>
+
+    <div
+      style="display:grid;gap:clamp(2rem,5vw,3.5rem);grid-template-columns:1fr;align-items:start"
+      class="about-grid"
+    >
+      <div class="prose">
+        {Content ? <Content /> : <p>{p.intro}</p>}
+      </div>
+      <SpecSheet
+        spec={p.spec}
+        caption={locale === 'zh-tw' ? '規格' : 'Spec sheet'}
+        right={p.location}
+      />
+    </div>
+
+    <section class="section">
+      <SectionHead no={1} title={locale === 'zh-tw' ? '經歷' : 'Timeline'} />
+      <ol class="timeline" data-probe-label="timeline">
+        {
+          exp.items.map((item) => (
+            <li>
+              <div class="when">
+                <span class="kind" data-kind={item.kind} aria-hidden="true" />
+                <span>{item.period}</span>
+              </div>
+              <div>
+                <h3>{item.title}</h3>
+                <p class="org">{item.org}</p>
+                <p>{item.detail}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </div>
+</Base>
+
+<style>
+  @media (min-width: 62rem) {
+    .about-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    }
+  }
+</style>

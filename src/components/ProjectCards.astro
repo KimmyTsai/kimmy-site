@@ -1,0 +1,39 @@
+---
+import { localePath, splitId, type Locale } from '../i18n/ui';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  locale: Locale;
+}
+const { projects, locale } = Astro.props;
+---
+
+<div class="cards two" data-probe-label="project grid">
+  {
+    projects.map((p) => {
+      const { slug } = splitId(p.id);
+      return (
+        <article class="card">
+          <p class="card-meta">
+            {p.data.period && <span>{p.data.period}</span>}
+            {p.data.role && <span>{p.data.role}</span>}
+          </p>
+          <h3 class="card-title">
+            <a class="stretch" href={localePath(locale, `/projects/${slug}`)}>
+              {p.data.title}
+            </a>
+          </h3>
+          <p>{p.data.summary}</p>
+          {p.data.stack.length > 0 && (
+            <ul class="tags">
+              {p.data.stack.map((s) => (
+                <li class="tag">{s}</li>
+              ))}
+            </ul>
+          )}
+        </article>
+      );
+    })
+  }
+</div>

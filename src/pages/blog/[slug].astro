@@ -1,0 +1,10 @@
+---
+import BlogPostView from '../../views/BlogPostView.astro';
+import { getPosts, toPaths } from '../../lib/content';
+
+export async function getStaticPaths() {
+  return toPaths(await getPosts('zh-tw'));
+}
+const { entry } = Astro.props;
+---
+<BlogPostView entry={entry} locale="zh-tw" />

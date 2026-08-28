@@ -1,0 +1,144 @@
+---
+import Base from '../layouts/Base.astro';
+import Traces from '../components/Traces.astro';
+import SectionHead from '../components/SectionHead.astro';
+import SpecSheet from '../components/SpecSheet.astro';
+import ProjectCards from '../components/ProjectCards.astro';
+import CompetitionLog from '../components/CompetitionLog.astro';
+import PostList from '../components/PostList.astro';
+import RepoList from '../components/RepoList.astro';
+
+import { localePath, useTranslations, type Locale } from '../i18n/ui';
+import { getPosts, getProjects, getCompetitions } from '../lib/content';
+import { getRepos } from '../lib/github';
+import site from '../data/site.json';
+import zh from '../data/profile.zh-tw.json';
+import en from '../data/profile.en.json';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const p = locale === 'zh-tw' ? zh : en;
+
+const [posts, projects, competitions, gh] = await Promise.all([
+  getPosts(locale),
+  getProjects(locale),
+  getCompetitions(locale),
+  getRepos(),
+]);
+
+const featured = projects.filter((x) => x.data.featured).slice(0, 4);
+const shownProjects = featured.length ? featured : projects.slice(0, 4);
+---
+
+<Base
+  title={`${p.name} — ${p.role}`}
+  description={p.intro}
+  locale={locale}
+  pathKey="/"
+>
+  <section class="hero">
+    <Traces />
+    <div class="wrap hero-grid">
+      <div>
+        <h1 data-probe-label="identity">
+          {p.name}{p.altName && <span class="alt">{p.altName}</span>}
+        </h1>
+        <p class="tagline">{p.tagline}<span class="caret" aria-hidden="true"></span></p>
+        <p class="intro">{p.intro}</p>
+
+        <div class="btn-row">
+          <a class="btn primary" href={localePath(locale, '/projects')}>{t('nav.projects')}</a>
+          <a class="btn" href={localePath(locale, '/competitions')}>{t('nav.competitions')}</a>
+          <a class="btn" href={`mailto:${site.email}`}>{t('home.contact')}</a>
+        </div>
+      </div>
+
+      <SpecSheet
+        spec={p.spec}
+        caption={locale === 'zh-tw' ? '規格' : 'Spec sheet'}
+        right={p.location}
+      />
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="section">
+      <SectionHead no={1} title={t('home.now')} />
+      <ul class="now-list" data-probe-label="now">
+        {p.now.map((line) => <li>{line}</li>)}
+      </ul>
+    </section>
+
+    {
+      shownProjects.length > 0 && (
+        <section class="section">
+          <SectionHead
+            no={2}
+            title={t('home.projects')}
+            moreHref={localePath(locale, '/projects')}
+            moreLabel={t('action.all')}
+          />
+          <ProjectCards projects={shownProjects} locale={locale} />
+        </section>
+      )
+    }
+
+    {
+      competitions.length > 0 && (
+        <section class="section">
+          <SectionHead
+            no={3}
+            title={t('home.competitions')}
+            moreHref={localePath(locale, '/competitions')}
+            moreLabel={t('action.all')}
+          />
+          <CompetitionLog entries={competitions.slice(0, 3)} locale={locale} />
+        </section>
+      )
+    }
+
+    {
+      posts.length > 0 && (
+        <section class="section">
+          <SectionHead
+            no={4}
+            title={t('home.blog')}
+            moreHref={localePath(locale, '/blog')}
+            moreLabel={t('action.all')}
+          />
+          <PostList posts={posts.slice(0, 4)} locale={locale} />
+        </section>
+      )
+    }
+
+    <section class="section">
+      <SectionHead
+        no={5}
+        title={t('home.repos')}
+        moreHref={`https://github.com/${site.github}`}
+        moreLabel={t('repos.viewAll')}
+      />
+      <RepoList repos={gh.repos} ok={gh.ok} locale={locale} />
+    </section>
+
+    <section class="section">
+      <SectionHead no={6} title={p.contact.heading} />
+      <p class="muted" style="max-width:var(--measure)">{p.contact.body}</p>
+      <div class="btn-row">
+        <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
+        {
+          site.socials
+            .filter((s) => s.url && s.label !== 'Email')
+            .map((s) => (
+              <a class="btn" href={s.url} rel="me noopener">
+                {s.label} ↗
+              </a>
+            ))
+        }
+      </div>
+    </section>
+  </div>
+</Base>

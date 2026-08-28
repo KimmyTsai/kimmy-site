@@ -1,0 +1,25 @@
+---
+interface Props {
+  /** 節次編號，會顯示成 §01 */
+  no: number | string;
+  title: string;
+  moreHref?: string;
+  moreLabel?: string;
+  id?: string;
+}
+const { no, title, moreHref, moreLabel, id } = Astro.props;
+const n = typeof no === 'number' ? String(no).padStart(2, '0') : no;
+---
+
+<div class="section-head">
+  <span class="no" aria-hidden="true">§{n}</span>
+  <h2 id={id}>{title}</h2>
+  <span class="rule"></span>
+  {
+    moreHref && (
+      <a class="more" href={moreHref}>
+        {moreLabel}
+      </a>
+    )
+  }
+</div>

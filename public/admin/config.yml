@@ -1,0 +1,301 @@
+# =============================================================================
+# 內容後台設定 (Sveltia CMS，設定格式與 Decap CMS 相容)
+#
+# 部署前必改：
+#   1. backend.repo  → 你的 GitHub 帳號/倉庫名
+#   2. backend.base_url → 你部署的 sveltia-cms-auth Worker 網址
+#   （詳細步驟見專案根目錄 README.md 的「開通後台」一節）
+# =============================================================================
+
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/kimmy-site
+  branch: main
+  base_url: https://sveltia-cms-auth.YOUR_SUBDOMAIN.workers.dev
+
+# 想在自己電腦上先試後台？不用改任何設定，也不用 OAuth：
+#   1. npm run dev
+#   2. 用 Chrome / Edge 開 http://localhost:4321/admin/index.html
+#   3. 選「Work with Local Repository」，指定這個專案資料夾
+# 編輯會直接寫進本機檔案，之後自己 git commit 即可。
+# （Sveltia 用的是 File System Access API，所以只支援 Chromium 系瀏覽器；
+#   它不支援 decap-server 那類 proxy，local_backend 設定會被忽略。）
+
+media_folder: public/uploads
+public_folder: /uploads
+
+publish_mode: simple
+
+i18n:
+  structure: multiple_folders
+  locales: [zh-tw, en]
+  default_locale: zh-tw
+
+collections:
+  # ---------------------------------------------------------------- 筆記
+  - name: blog
+    label: 筆記
+    label_singular: 一篇筆記
+    description: 部落格文章。中英文各存一份，檔名（slug）相同就會自動配對。
+    folder: src/content/blog
+    create: true
+    i18n: true
+    slug: '{{fields.slug}}'
+    preview_path: 'blog/{{fields.slug}}'
+    sortable_fields: [pubDate, title]
+    view_filters:
+      - { label: 草稿, field: draft, pattern: true }
+    fields:
+      - {
+          label: 網址代稱 slug,
+          name: slug,
+          widget: string,
+          i18n: duplicate,
+          hint: 只用英文小寫、數字與連字號，例：post-synthesis-lied-to-me。中英文版本請用同一個。,
+        }
+      - { label: 標題, name: title, widget: string, i18n: true }
+      - { label: 摘要, name: summary, widget: text, i18n: true }
+      - { label: 發布日期, name: pubDate, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false, i18n: duplicate }
+      - {
+          label: 更新日期,
+          name: updatedDate,
+          widget: datetime,
+          format: 'YYYY-MM-DD',
+          date_format: 'YYYY-MM-DD',
+          time_format: false,
+          required: false,
+          i18n: duplicate,
+        }
+      - { label: 標籤, name: tags, widget: list, default: [], required: false, i18n: true }
+      - { label: 封面圖, name: cover, widget: image, required: false, i18n: duplicate }
+      - { label: 草稿（勾選就不會發布）, name: draft, widget: boolean, default: false, i18n: duplicate }
+      - { label: 內文, name: body, widget: markdown, i18n: true }
+
+  # ---------------------------------------------------------------- 專案
+  - name: projects
+    label: 專案
+    label_singular: 一個專案
+    folder: src/content/projects
+    create: true
+    i18n: true
+    slug: '{{fields.slug}}'
+    preview_path: 'projects/{{fields.slug}}'
+    sortable_fields: [order, title]
+    fields:
+      - { label: 網址代稱 slug, name: slug, widget: string, i18n: duplicate }
+      - { label: 標題, name: title, widget: string, i18n: true }
+      - { label: 一句話說明, name: summary, widget: text, i18n: true }
+      - { label: 排序（數字小的排前面）, name: order, widget: number, default: 99, value_type: int, i18n: duplicate }
+      - { label: 放上首頁精選, name: featured, widget: boolean, default: false, i18n: duplicate }
+      - { label: 期間, name: period, widget: string, required: false, i18n: true }
+      - { label: 我的角色, name: role, widget: string, required: false, i18n: true }
+      - { label: 技術, name: stack, widget: list, default: [], required: false, i18n: duplicate }
+      - { label: 原始碼網址, name: repo, widget: string, required: false, i18n: duplicate }
+      - { label: Demo 網址, name: demo, widget: string, required: false, i18n: duplicate }
+      - { label: 封面圖, name: cover, widget: image, required: false, i18n: duplicate }
+      - { label: 草稿, name: draft, widget: boolean, default: false, i18n: duplicate }
+      - { label: 內文, name: body, widget: markdown, i18n: true }
+
+  # ---------------------------------------------------------------- 競賽紀錄
+  - name: competitions
+    label: 競賽紀錄
+    label_singular: 一筆競賽紀錄
+    description: 黑客松與各式比賽。沒得名的也建議記上——那才是真實的紀錄。
+    folder: src/content/competitions
+    create: true
+    i18n: true
+    slug: '{{fields.slug}}'
+    sortable_fields: [date, title]
+    fields:
+      - { label: 網址代稱 slug, name: slug, widget: string, i18n: duplicate }
+      - { label: 賽事名稱, name: title, widget: string, i18n: true }
+      - { label: 主辦／賽道, name: host, widget: string, required: false, i18n: true }
+      - { label: 日期, name: date, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false, i18n: duplicate }
+      - {
+          label: 成績,
+          name: result,
+          widget: string,
+          required: false,
+          i18n: true,
+          hint: 例：冠軍／入圍決賽／佳作／參賽。沒得名就照實寫。,
+        }
+      - {
+          label: 重點標記,
+          name: highlight,
+          widget: boolean,
+          default: false,
+          i18n: duplicate,
+          hint: 勾選後這筆會用主色標示（通常留給有名次的）。,
+        }
+      - { label: 團隊, name: team, widget: string, required: false, i18n: true }
+      - { label: 我的角色, name: role, widget: string, required: false, i18n: true }
+      - { label: 技術, name: stack, widget: list, default: [], required: false, i18n: duplicate }
+      - { label: 賽事連結, name: link, widget: string, required: false, i18n: duplicate }
+      - { label: 作品原始碼, name: repo, widget: string, required: false, i18n: duplicate }
+      - { label: 說明, name: summary, widget: text, required: false, i18n: true }
+      - { label: 草稿, name: draft, widget: boolean, default: false, i18n: duplicate }
+
+  # ---------------------------------------------------------------- 關於頁
+  - name: pages
+    label: 固定頁面
+    folder: src/content/pages
+    create: false
+    i18n: true
+    fields:
+      - { label: 標題, name: title, widget: string, i18n: true }
+      - { label: 頁面描述, name: description, widget: string, required: false, i18n: true }
+      - { label: 內文, name: body, widget: markdown, i18n: true }
+
+  # ---------------------------------------------------------------- 個人資料
+  - name: data
+    label: 個人資料與設定
+    files:
+      - name: profile_zh
+        label: 個人簡介（中文）
+        file: src/data/profile.zh-tw.json
+        fields:
+          - { label: 顯示名稱, name: name, widget: string }
+          - { label: 副名稱（可留空）, name: altName, widget: string, required: false }
+          - { label: 一行身分, name: role, widget: string }
+          - { label: 所在地, name: location, widget: string }
+          - { label: 標語, name: tagline, widget: string }
+          - { label: 自我介紹, name: intro, widget: text }
+          - {
+              label: 規格表,
+              name: spec,
+              widget: list,
+              summary: '{{fields.k}} — {{fields.v}}',
+              fields: [{ label: 欄位, name: k, widget: string }, { label: 內容, name: v, widget: string }],
+            }
+          - { label: 近期在做, name: now, widget: list }
+          - {
+              label: 聯絡區塊,
+              name: contact,
+              widget: object,
+              fields: [{ label: 標題, name: heading, widget: string }, { label: 說明, name: body, widget: text }],
+            }
+
+      - name: profile_en
+        label: 個人簡介（English）
+        file: src/data/profile.en.json
+        fields:
+          - { label: Name, name: name, widget: string }
+          - { label: Alt name, name: altName, widget: string, required: false }
+          - { label: Role, name: role, widget: string }
+          - { label: Location, name: location, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Intro, name: intro, widget: text }
+          - {
+              label: Spec sheet,
+              name: spec,
+              widget: list,
+              summary: '{{fields.k}} — {{fields.v}}',
+              fields: [{ label: Key, name: k, widget: string }, { label: Value, name: v, widget: string }],
+            }
+          - { label: Currently, name: now, widget: list }
+          - {
+              label: Contact,
+              name: contact,
+              widget: object,
+              fields: [{ label: Heading, name: heading, widget: string }, { label: Body, name: body, widget: text }],
+            }
+
+      - name: experience_zh
+        label: 經歷時間軸（中文）
+        file: src/data/experience.zh-tw.json
+        fields:
+          - {
+              label: 經歷,
+              name: items,
+              widget: list,
+              summary: '{{fields.period}} — {{fields.title}}',
+              fields:
+                [
+                  { label: 期間, name: period, widget: string },
+                  { label: 職稱／項目, name: title, widget: string },
+                  { label: 單位, name: org, widget: string },
+                  {
+                    label: 類型,
+                    name: kind,
+                    widget: select,
+                    options: [education, research, work, activity],
+                    default: education,
+                  },
+                  { label: 說明, name: detail, widget: text },
+                ],
+            }
+
+      - name: experience_en
+        label: 經歷時間軸（English）
+        file: src/data/experience.en.json
+        fields:
+          - {
+              label: Timeline,
+              name: items,
+              widget: list,
+              summary: '{{fields.period}} — {{fields.title}}',
+              fields:
+                [
+                  { label: Period, name: period, widget: string },
+                  { label: Title, name: title, widget: string },
+                  { label: Organisation, name: org, widget: string },
+                  {
+                    label: Kind,
+                    name: kind,
+                    widget: select,
+                    options: [education, research, work, activity],
+                    default: education,
+                  },
+                  { label: Detail, name: detail, widget: text },
+                ],
+            }
+
+      - name: site
+        label: 全站設定
+        file: src/data/site.json
+        fields:
+          - { label: 網域, name: domain, widget: string }
+          - { label: GitHub 帳號, name: github, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: 本站原始碼網址, name: repoUrl, widget: string }
+          - { label: 授權條款, name: license, widget: string }
+          - { label: 授權條款網址, name: licenseUrl, widget: string }
+          - {
+              label: 社群連結,
+              name: socials,
+              widget: list,
+              summary: '{{fields.label}}',
+              fields: [{ label: 名稱, name: label, widget: string }, { label: 網址, name: url, widget: string, required: false }],
+            }
+          - {
+              label: GitHub 倉庫顯示設定,
+              name: repos,
+              widget: object,
+              fields:
+                [
+                  {
+                    label: 指定顯示的倉庫,
+                    name: pinned,
+                    widget: list,
+                    required: false,
+                    hint: 留空就自動抓最近更新的公開倉庫。,
+                  },
+                  { label: 自動抓取時顯示幾個, name: count, widget: number, default: 6, value_type: int },
+                  { label: 排除的倉庫名, name: exclude, widget: list, required: false },
+                  {
+                    label: 備援清單（GitHub 抓不到時顯示）,
+                    name: fallback,
+                    widget: list,
+                    required: false,
+                    summary: '{{fields.name}}',
+                    fields:
+                      [
+                        { label: 名稱, name: name, widget: string },
+                        { label: 說明, name: description, widget: text, required: false },
+                        { label: 語言, name: language, widget: string, required: false },
+                        { label: 星數, name: stars, widget: number, default: 0, value_type: int, required: false },
+                        { label: 網址, name: url, widget: string },
+                      ],
+                  },
+                ],
+            }

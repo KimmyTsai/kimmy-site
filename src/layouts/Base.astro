@@ -1,0 +1,123 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { htmlLang, useTranslations, LOCALES, type Locale } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  pathKey: string;
+  ogType?: string;
+  availableIn?: readonly Locale[];
+}
+
+const {
+  title,
+  description,
+  locale,
+  pathKey,
+  ogType = 'website',
+  availableIn = LOCALES,
+} = Astro.props;
+const t = useTranslations(locale);
+---
+
+<!doctype html>
+<html lang={htmlLang[locale]}>
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      locale={locale}
+      pathKey={pathKey}
+      ogType={ogType}
+      availableIn={availableIn}
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('nav.skip')}</a>
+    <Header locale={locale} pathKey={pathKey} availableIn={availableIn} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+
+    <script>
+      // ------------------------------------------------------------------
+      // 前端小互動。全部都是漸進增強：沒有 JS 網站照樣可讀。
+      // ------------------------------------------------------------------
+      const root = document.documentElement;
+
+      function setupTheme() {
+        const btn = document.getElementById('theme-toggle');
+        if (!btn || btn.dataset.bound) return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', () => {
+          const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+          } catch {}
+        });
+      }
+
+      // 彩蛋一：探針模式 —— 幫版面上的區塊標註，像看規格書的元件標號
+      function setupProbe() {
+        const btn = document.getElementById('probe-toggle');
+        if (!btn || btn.dataset.bound) return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', () => {
+          const on = root.dataset.probe === 'on';
+          if (on) delete root.dataset.probe;
+          else root.dataset.probe = 'on';
+          btn.setAttribute('aria-pressed', String(!on));
+        });
+      }
+
+      // 彩蛋二：Konami code → CRT 磷光模式
+      const KONAMI = [
+        'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+        'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a',
+      ];
+      let idx = 0;
+      function onKey(e: KeyboardEvent) {
+        const want = KONAMI[idx];
+        if (e.key.toLowerCase() === want.toLowerCase()) {
+          idx++;
+          if (idx === KONAMI.length) {
+            idx = 0;
+            const on = root.dataset.crt === 'on';
+            if (on) {
+              delete root.dataset.crt;
+              try { localStorage.removeItem('crt'); } catch {}
+            } else {
+              root.dataset.crt = 'on';
+              try { localStorage.setItem('crt', 'on'); } catch {}
+            }
+          }
+        } else {
+          idx = e.key === KONAMI[0] ? 1 : 0;
+        }
+      }
+
+      function boot() {
+        setupTheme();
+        setupProbe();
+      }
+
+      document.addEventListener('keydown', onKey);
+      document.addEventListener('astro:page-load', boot);
+      boot();
+
+      console.log(
+        '%c  ┌───────────────┐\n  │ ▪ ▪ ▪ ▪ ▪ ▪ ▪ │   KIMMY · CSIE\n  │  hi there ✦   │   RISC-V / FPGA / PQC\n  │ ▪ ▪ ▪ ▪ ▪ ▪ ▪ │   src: github\n  └───────────────┘',
+        'font-family:monospace;color:#c9752f;line-height:1.5',
+      );
+    </script>
+  </body>
+</html>

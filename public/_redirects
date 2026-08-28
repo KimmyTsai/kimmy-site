@@ -1,0 +1,3 @@
+# Cloudflare Pages 轉址規則。一行一條：來源 目標 狀態碼
+# 舊網址搬家時寫在這裡，例：
+# /old-post  /blog/new-post  301

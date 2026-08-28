@@ -1,0 +1,43 @@
+{
+  "_comment": "全站設定（與語言無關）。部署前請把 github / email / domain 改成你自己的。",
+  "domain": "kimmy.dev",
+  "github": "YOUR_GITHUB_USERNAME",
+  "email": "kimmy567567@gmail.com",
+  "repoUrl": "https://github.com/YOUR_GITHUB_USERNAME/kimmy-site",
+  "license": "CC BY-NC 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hant",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/YOUR_GITHUB_USERNAME" },
+    { "label": "Email", "url": "mailto:kimmy567567@gmail.com" },
+    { "label": "LinkedIn", "url": "" }
+  ],
+  "repos": {
+    "_comment": "pinned 留空 = 自動顯示 GitHub 上最近更新的公開倉庫；填了就只顯示這幾個（順序照填的順序）。fallback 是 GitHub API 掛掉時的備援清單。",
+    "pinned": [],
+    "count": 6,
+    "exclude": ["YOUR_GITHUB_USERNAME"],
+    "fallback": [
+      {
+        "name": "shack256-riscv",
+        "description": "RISC-V SHACK-256 instruction set extension for SLH-DSA post-quantum signatures, on CV32E40P.",
+        "language": "Verilog",
+        "stars": 0,
+        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+      },
+      {
+        "name": "pic18-servo-touchpad",
+        "description": "PIC18F4520 embedded project: servo control driven by touchpad input (PWM, Timer0, debounce).",
+        "language": "C",
+        "stars": 0,
+        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+      },
+      {
+        "name": "ntt-256-verilog",
+        "description": "256-point Number Theoretic Transform hardware module in Verilog.",
+        "language": "Verilog",
+        "stars": 0,
+        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+      }
+    ]
+  }
+}

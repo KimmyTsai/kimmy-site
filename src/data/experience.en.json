@@ -1,0 +1,47 @@
+{
+  "_comment": "Timeline on the About page. kind: education / research / work / activity — only affects the marker colour.",
+  "items": [
+    {
+      "period": "Aug 2026",
+      "title": "Inbound Mobility Program",
+      "org": "Universiti Malaya, Faculty of Computer Science & IT",
+      "kind": "education",
+      "detail": "A one-week exchange: cross-institution coursework and lab visits. My cross-disciplinary coursework was the main differentiator in the application."
+    },
+    {
+      "period": "Sep 2025 – Jun 2026",
+      "title": "Capstone: RISC-V ISA extension for SLH-DSA post-quantum signatures",
+      "org": "NCKU CSIE, advised by Prof. Pei-Yin Chen",
+      "kind": "research",
+      "detail": "Extended the OpenHW CV32E40P core with 320-bit SIMD registers and custom instructions to accelerate Keccak / SHAKE256. I owned FPGA integration, bitstream programming and hardware testing."
+    },
+    {
+      "period": "2025 – 2026",
+      "title": "Hackathons, back to back",
+      "org": "Mei-Chu Hackathon · Sea x OpenAI Codex Hackathon · DevJam",
+      "kind": "activity",
+      "detail": "Stretching from hardware into web and AI-agent applications — practice at collapsing an idea into something demoable in 48 hours."
+    },
+    {
+      "period": "During studies",
+      "title": "English tutor",
+      "org": "Freelance",
+      "kind": "work",
+      "detail": "One-on-one tutoring, mostly grammar and reading comprehension. TOEIC 915."
+    },
+    {
+      "period": "During studies",
+      "title": "Table tennis team · department cycling representative",
+      "org": "NCKU CSIE",
+      "kind": "activity",
+      "detail": "Played on the department table tennis team and represented CSIE at the university cycling festival. Also worked ticketing at a baseball stadium."
+    },
+    {
+      "period": "2022 –",
+      "title": "B.S. in Computer Science and Information Engineering",
+      "org": "National Cheng Kung University",
+      "kind": "education",
+      "detail": "Coursework across compiler design, computer organization and architecture, digital systems and embedded systems, plus electives in international financial markets and international security."
+    }
+  ]
+}

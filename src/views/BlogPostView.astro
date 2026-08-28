@@ -1,0 +1,120 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { localePath, useTranslations, formatDate, isoDate, splitId, type Locale } from '../i18n/ui';
+import { readingTime, localesFor } from '../lib/content';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+  locale: Locale;
+}
+const { entry, locale } = Astro.props;
+const t = useTranslations(locale);
+const { slug } = splitId(entry.id);
+const { Content, headings } = await render(entry);
+const mins = readingTime(entry.body ?? '', locale);
+const availableIn = await localesFor('blog', slug);
+const toc = headings.filter((h) => h.depth === 2);
+---
+
+<Base
+  title={`${entry.data.title} — Kimmy`}
+  description={entry.data.summary}
+  locale={locale}
+  pathKey={`/blog/${slug}`}
+  ogType="article"
+  availableIn={availableIn}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label" style="margin-bottom:.9rem">
+        <a href={localePath(locale, '/blog')} class="link">{t('blog.title')}</a>
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">{entry.data.summary}</p>
+      <p class="mono muted" style="margin-top:1.1rem">
+        <time datetime={isoDate(entry.data.pubDate)}>{formatDate(entry.data.pubDate, locale)}</time>
+        {' · '}{mins} {t('label.readingTime')}
+        {
+          entry.data.updatedDate && (
+            <>
+              {' · '}
+              {t('label.updated')} {formatDate(entry.data.updatedDate, locale)}
+            </>
+          )
+        }
+      </p>
+      {
+        entry.data.tags.length > 0 && (
+          <ul class="tags" style="margin-top:.9rem">
+            {entry.data.tags.map((tag) => (
+              <li class="tag">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="post-layout">
+      <article class="prose" data-probe-label="article body">
+        <Content />
+      </article>
+
+      {
+        toc.length > 2 && (
+          <nav class="toc" aria-label={t('blog.toc')}>
+            <p class="label">{t('blog.toc')}</p>
+            <ul>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+    </div>
+
+    <p style="margin-top:3.5rem">
+      <a class="btn" href={localePath(locale, '/blog')}>← {t('action.back')}</a>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .post-layout {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  @media (min-width: 68rem) {
+    .post-layout {
+      grid-template-columns: minmax(0, var(--measure)) minmax(12rem, 1fr);
+    }
+    .toc {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.7rem;
+    border-inline-start: 1px solid var(--rule);
+  }
+  .toc li a {
+    display: block;
+    padding: 0.3rem 0 0.3rem 0.9rem;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    border-inline-start: 1px solid transparent;
+    margin-inline-start: -1px;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .toc li a:hover {
+    color: var(--accent);
+    border-inline-start-color: var(--accent);
+  }
+</style>

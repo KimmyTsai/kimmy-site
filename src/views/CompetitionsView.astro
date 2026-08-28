@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import CompetitionLog from '../components/CompetitionLog.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
+import { getCompetitions } from '../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const entries = await getCompetitions(locale);
+
+// 依年份分組，讓流水帳好讀一點
+const byYear = new Map<number, typeof entries>();
+for (const e of entries) {
+  const y = e.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(e);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+const placed = entries.filter((e) => e.data.highlight).length;
+---
+
+<Base
+  title={`${t('competitions.title')} — Kimmy`}
+  description={t('competitions.description')}
+  locale={locale}
+  pathKey="/competitions"
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>{t('competitions.title')}</h1>
+      <p class="lede">{t('competitions.description')}</p>
+      {
+        entries.length > 0 && (
+          <p class="mono muted" style="margin-top:1rem">
+            {entries.length} {locale === 'zh-tw' ? '筆紀錄' : 'entries'} · {placed}{' '}
+            {locale === 'zh-tw' ? '筆有名次或入圍' : 'placed or shortlisted'}
+          </p>
+        )
+      }
+    </header>
+
+    {
+      entries.length ? (
+        years.map((year) => (
+          <section class="year">
+            <h2 class="year-head">{year}</h2>
+            <CompetitionLog entries={byYear.get(year)!} locale={locale} />
+          </section>
+        ))
+      ) : (
+        <p class="empty">{t('competitions.empty')}</p>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .year + .year {
+    margin-block-start: 3rem;
+  }
+  .year-head {
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    font-weight: 400;
+    border-block-end: 1px solid var(--rule);
+    padding-block-end: 0.5rem;
+    margin-block-end: 1.6rem;
+  }
+</style>

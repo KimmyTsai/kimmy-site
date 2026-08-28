@@ -1,0 +1,82 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SpecSheet from '../components/SpecSheet.astro';
+import { localePath, useTranslations, splitId, type Locale } from '../i18n/ui';
+import { localesFor } from '../lib/content';
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+  locale: Locale;
+}
+const { entry, locale } = Astro.props;
+const t = useTranslations(locale);
+const { slug } = splitId(entry.id);
+const { Content } = await render(entry);
+const availableIn = await localesFor('projects', slug);
+const d = entry.data;
+
+const spec = [
+  d.period && { k: t('label.period'), v: d.period },
+  d.role && { k: t('label.role'), v: d.role },
+  d.stack.length ? { k: t('label.stack'), v: d.stack.join(' · ') } : null,
+].filter(Boolean) as { k: string; v: string }[];
+---
+
+<Base
+  title={`${d.title} — Kimmy`}
+  description={d.summary}
+  locale={locale}
+  pathKey={`/projects/${slug}`}
+  ogType="article"
+  availableIn={availableIn}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label" style="margin-bottom:.9rem">
+        <a href={localePath(locale, '/projects')} class="link">{t('projects.title')}</a>
+      </p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      {
+        (d.repo || d.demo) && (
+          <div class="btn-row">
+            {d.repo && (
+              <a class="btn" href={d.repo} rel="noopener">
+                {t('action.repo')} ↗
+              </a>
+            )}
+            {d.demo && (
+              <a class="btn primary" href={d.demo} rel="noopener">
+                {t('action.demo')} ↗
+              </a>
+            )}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="project-layout">
+      <article class="prose"><Content /></article>
+      {spec.length > 0 && <SpecSheet spec={spec} caption={locale === 'zh-tw' ? '專案資訊' : 'Project'} right="" />}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .project-layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  @media (min-width: 66rem) {
+    .project-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+    }
+    .project-layout > :last-child {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+</style>

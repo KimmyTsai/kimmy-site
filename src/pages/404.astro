@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, localePath } from '../i18n/ui';
+const t = useTranslations('zh-tw');
+const en = useTranslations('en');
+---
+
+<Base title="404 — Kimmy" description={t('404.body')} locale="zh-tw" pathKey="/404">
+  <div class="wrap" style="padding-block:clamp(4rem,14vw,10rem);max-width:52rem">
+    <p class="label">error 404 · page not found</p>
+
+    <pre
+      class="mono"
+      style="margin-block:2rem;color:var(--accent);overflow-x:auto;line-height:1.4">{`   ┌─────────────┐
+   │ ▪ ▪ ▪ ▪ ▪ ▪ │
+   │   NO  SIG   │
+   │ ▪ ▪ ▪ ▪ ▪ ▪ │
+   └─────────────┘`}</pre>
+
+    <h1 style="font-size:var(--step-3)">{t('404.title')}</h1>
+    <p class="muted" style="margin-top:1rem;max-width:var(--measure)">{t('404.body')}</p>
+    <p class="muted" style="margin-top:.5rem;max-width:var(--measure)">{en('404.body')}</p>
+
+    <div class="btn-row">
+      <a class="btn primary" href={localePath('zh-tw', '/')}>{t('404.home')}</a>
+      <a class="btn" href={localePath('zh-tw', '/blog')}>{t('nav.blog')}</a>
+      <a class="btn" href={localePath('en', '/')}>English</a>
+    </div>
+  </div>
+</Base>
