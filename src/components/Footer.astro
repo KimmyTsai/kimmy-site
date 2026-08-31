@@ -11,6 +11,10 @@ const year = new Date().getFullYear();
 const built = new Date().toISOString().slice(0, 16).replace('T', ' ');
 const socials = site.socials.filter((s) => s.url);
 
+// 只有 http(s) 的連結才開新分頁。mailto: 若加了 target=_blank，
+// 叫起郵件軟體之後會留下一個空白分頁。
+const isExternal = (url: string) => url.startsWith('http');
+
 // Astro dev server 只認得 public/ 底下的實體檔名，/admin/ 會 404；
 // 正式部署（Cloudflare Pages）才會把目錄對到 index.html。
 const adminHref = import.meta.env.DEV ? '/admin/index.html' : '/admin/';
@@ -31,9 +35,27 @@ const adminHref = import.meta.env.DEV ? '/admin/index.html' : '/admin/';
       </div>
 
       <div class="links">
-        {socials.map((s) => <a href={s.url} rel="me noopener">{s.label}</a>)}
+        {
+          socials.map((s) => (
+            <a
+              href={s.url}
+              rel="me noopener"
+              target={isExternal(s.url) ? '_blank' : undefined}
+            >
+              {s.label}
+            </a>
+          ))
+        }
         <a href={localePath(locale, '/rss.xml')}>RSS</a>
-        <a class="admin-link" href={adminHref} rel="nofollow" title={t('footer.adminTitle')}>
+        {/* 後台是獨立的 CMS 頁面，不是 Astro 路由。開新分頁除了體驗較好，
+            也能避開 ClientRouter 去接管它 */}
+        <a
+          class="admin-link"
+          href={adminHref}
+          rel="nofollow noopener"
+          target="_blank"
+          title={t('footer.adminTitle')}
+        >
           {t('footer.admin')}
         </a>
       </div>
