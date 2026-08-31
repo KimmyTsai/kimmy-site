@@ -10,6 +10,7 @@ const { locale, pathKey, availableIn = LOCALES } = Astro.props;
 const t = useTranslations(locale);
 
 const nav = [
+  { key: '/', label: t('nav.home') },
   { key: '/about', label: t('nav.about') },
   { key: '/projects', label: t('nav.projects') },
   { key: '/competitions', label: t('nav.competitions') },
@@ -19,6 +20,8 @@ const nav = [
 const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isCurrent = (key: string) => {
   const full = localePath(locale, key).replace(/\/+$/, '') || '/';
+  // 首頁只在完全相符時算 current；否則 /en/about 會讓 /en 也被判定為 current
+  if (key === '/') return here === full;
   return here === full || here.startsWith(full + '/');
 };
 
@@ -28,20 +31,23 @@ const otherAvailable = availableIn.includes(other);
 
 <header class="site-header">
   <div class="wrap bar">
-    <button
-      class="brand"
-      type="button"
-      id="probe-toggle"
-      aria-pressed="false"
-      title="Probe mode"
-      aria-label="Toggle probe mode"
-    >
-      <svg class="chip" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
-        <rect x="4" y="4" width="8" height="8" rx="0.5" />
-        <path d="M6.5 1.5v2.5M9.5 1.5v2.5M6.5 12v2.5M9.5 12v2.5M1.5 6.5h2.5M1.5 9.5h2.5M12 6.5h2.5M12 9.5h2.5" />
-      </svg>
-      <span>KIMMY</span>
-    </button>
+    <div class="brand">
+      {/* 晶片圖示＝探針模式彩蛋；文字＝回首頁 */}
+      <button
+        class="brand-chip"
+        type="button"
+        id="probe-toggle"
+        aria-pressed="false"
+        title="Probe mode"
+        aria-label="Toggle probe mode"
+      >
+        <svg class="chip" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="4" y="4" width="8" height="8" rx="0.5" />
+          <path d="M6.5 1.5v2.5M9.5 1.5v2.5M6.5 12v2.5M9.5 12v2.5M1.5 6.5h2.5M1.5 9.5h2.5M12 6.5h2.5M12 9.5h2.5" />
+        </svg>
+      </button>
+      <a class="brand-name" href={localePath(locale, '/')} aria-label={t('nav.home')}>KIMMY</a>
+    </div>
 
     <nav class="nav" aria-label={locale === 'zh-tw' ? '主選單' : 'Main'}>
       {

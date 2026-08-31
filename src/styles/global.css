@@ -289,18 +289,32 @@ main {
   gap: 1rem;
   min-height: 3.75rem;
 }
+/* 左上角識別：晶片圖示是探針模式的開關，KIMMY 文字是回首頁的連結 */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
+  margin-inline-end: auto;
+  padding: 0.25rem 0;
+}
+.brand-chip {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.brand-name {
   font-family: var(--font-mono);
   font-size: var(--step--1);
   letter-spacing: 0.08em;
-  margin-inline-end: auto;
-  padding: 0.25rem 0;
-  background: none;
-  border: 0;
-  cursor: pointer;
+  color: var(--ink);
+  transition: color var(--dur) var(--ease);
+}
+.brand-name:hover {
+  color: var(--accent);
 }
 .brand .chip {
   width: 15px;
@@ -308,7 +322,7 @@ main {
   flex: none;
   color: var(--accent);
 }
-.brand:hover .chip {
+.brand-chip:hover .chip {
   animation: pulse 1.1s var(--ease) infinite;
 }
 @keyframes pulse {
@@ -1128,6 +1142,16 @@ main {
 }
 .site-footer a:hover {
   color: var(--accent);
+}
+/* 後台入口：刻意做得比其他頁尾連結更輕，訪客不會誤點，但需要時找得到 */
+.site-footer .admin-link {
+  padding-inline-start: 1.2rem;
+  border-inline-start: 1px solid var(--rule);
+  opacity: 0.65;
+  transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.site-footer .admin-link:hover {
+  opacity: 1;
 }
 .site-footer .sig {
   font-family: var(--font-mono);

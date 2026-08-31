@@ -73,13 +73,25 @@ const ogImage = new URL('/og.png', Astro.site ?? 'https://example.com');
 {/* 在畫面繪製前套用主題，避免深色模式閃白 */}
 <script is:inline>
   (() => {
-    try {
-      const saved = localStorage.getItem('theme');
-      const sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : sys;
-      if (localStorage.getItem('crt') === 'on') document.documentElement.dataset.crt = 'on';
-    } catch {
-      document.documentElement.dataset.theme = 'light';
-    }
+    const apply = () => {
+      const root = document.documentElement;
+      try {
+        const saved = localStorage.getItem('theme');
+        const sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.theme = saved === 'light' || saved === 'dark' ? saved : sys;
+        if (localStorage.getItem('crt') === 'on') root.dataset.crt = 'on';
+        else delete root.dataset.crt;
+      } catch {
+        root.dataset.theme = 'light';
+      }
+    };
+
+    apply();
+
+    // ClientRouter 換頁時會把 <html> 上的屬性全部清掉（swapRootAttributes），
+    // data-theme / data-crt 會跟著消失、主題閃回淺色；而這支 inline script
+    // 內容沒變，Astro 會判定「已執行過」而不重跑。所以在 swap 後補套一次。
+    // astro:after-swap 在新頁面接上、繪製之前觸發，不會看到閃爍。
+    document.addEventListener('astro:after-swap', apply);
   })();
 </script>

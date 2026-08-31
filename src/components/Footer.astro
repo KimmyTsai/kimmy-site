@@ -10,6 +10,10 @@ const t = useTranslations(locale);
 const year = new Date().getFullYear();
 const built = new Date().toISOString().slice(0, 16).replace('T', ' ');
 const socials = site.socials.filter((s) => s.url);
+
+// Astro dev server 只認得 public/ 底下的實體檔名，/admin/ 會 404；
+// 正式部署（Cloudflare Pages）才會把目錄對到 index.html。
+const adminHref = import.meta.env.DEV ? '/admin/index.html' : '/admin/';
 ---
 
 <footer class="site-footer">
@@ -29,6 +33,9 @@ const socials = site.socials.filter((s) => s.url);
       <div class="links">
         {socials.map((s) => <a href={s.url} rel="me noopener">{s.label}</a>)}
         <a href={localePath(locale, '/rss.xml')}>RSS</a>
+        <a class="admin-link" href={adminHref} rel="nofollow" title={t('footer.adminTitle')}>
+          {t('footer.admin')}
+        </a>
       </div>
     </div>
 

@@ -67,6 +67,8 @@ export const ui = {
     'footer.built': '本站以 Astro 手工打造，原始碼公開',
     'footer.rights': '內容採',
     'footer.rss': '訂閱 RSS',
+    'footer.admin': '後台',
+    'footer.adminTitle': '內容後台（需要 GitHub 帳號登入）',
 
     '404.title': '這裡沒有東西',
     '404.body': '這個位址找不到對應的頁面。可能是連結過期，或是我改了網址。',
@@ -125,6 +127,8 @@ export const ui = {
     'footer.built': 'Hand-built with Astro. Source is public',
     'footer.rights': 'Content licensed under',
     'footer.rss': 'Subscribe via RSS',
+    'footer.admin': 'Admin',
+    'footer.adminTitle': 'Content admin (sign in with GitHub)',
 
     '404.title': 'Nothing here',
     '404.body': 'No page lives at this address. The link may have expired, or I moved things around.',
