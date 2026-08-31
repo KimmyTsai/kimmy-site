@@ -254,6 +254,13 @@ collections:
         label: 全站設定
         file: src/data/site.json
         fields:
+          - {
+              label: 個人照片,
+              name: portrait,
+              widget: image,
+              required: false,
+              hint: 顯示在首頁右側、規格表的上方。建議用直式照片（3:4），寬度 800px 以上；留空就不顯示。,
+            }
           - { label: 網域, name: domain, widget: string }
           - { label: GitHub 帳號, name: github, widget: string }
           - { label: Email, name: email, widget: string }

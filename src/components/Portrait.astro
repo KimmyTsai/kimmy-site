@@ -1,0 +1,26 @@
+---
+/**
+ * 個人照片。沿用規格表的框線語彙，當作 IC 封裝的外觀圖。
+ *
+ * 圖片來自後台上傳（public/uploads/），不是 src/ 底下的靜態資源，
+ * 所以不能走 astro:assets 的 <Image>——那需要在 build 時就能靜態 import。
+ * 這裡用原生 <img> 搭配 aspect-ratio + object-fit，任何尺寸的上傳都不會破版。
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  fig?: string;
+}
+const { src, alt, caption = 'Portrait', fig = 'FIG. 01' } = Astro.props;
+---
+
+<figure class="portrait" data-probe-label="portrait">
+  <div class="portrait-title">
+    <span>{fig}</span>
+    <span>{caption}</span>
+  </div>
+  <div class="portrait-frame">
+    <img src={src} alt={alt} loading="eager" decoding="async" />
+  </div>
+</figure>

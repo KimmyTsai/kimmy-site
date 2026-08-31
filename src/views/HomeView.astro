@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Traces from '../components/Traces.astro';
 import SectionHead from '../components/SectionHead.astro';
 import SpecSheet from '../components/SpecSheet.astro';
+import Portrait from '../components/Portrait.astro';
 import ProjectCards from '../components/ProjectCards.astro';
 import CompetitionLog from '../components/CompetitionLog.astro';
 import PostList from '../components/PostList.astro';
@@ -56,11 +57,22 @@ const shownProjects = featured.length ? featured : projects.slice(0, 4);
         </div>
       </div>
 
-      <SpecSheet
-        spec={p.spec}
-        caption={locale === 'zh-tw' ? '規格' : 'Spec sheet'}
-        right={p.location}
-      />
+      <div class="hero-side">
+        {
+          site.portrait && (
+            <Portrait
+              src={site.portrait}
+              alt={locale === 'zh-tw' ? `${p.name} 的照片` : `Portrait of ${p.name}`}
+              caption={t('home.portrait')}
+            />
+          )
+        }
+        <SpecSheet
+          spec={p.spec}
+          caption={locale === 'zh-tw' ? '規格' : 'Spec sheet'}
+          right={p.location}
+        />
+      </div>
     </div>
   </section>
 

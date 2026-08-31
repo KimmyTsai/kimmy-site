@@ -23,6 +23,7 @@ export const ui = {
     'nav.skip': '跳到主要內容',
 
     'home.now': '近期在做',
+    'home.portrait': '照片',
     'home.projects': '精選專案',
     'home.competitions': '競賽紀錄',
     'home.blog': '最新筆記',
@@ -83,6 +84,7 @@ export const ui = {
     'nav.skip': 'Skip to main content',
 
     'home.now': 'Currently',
+    'home.portrait': 'Portrait',
     'home.projects': 'Selected work',
     'home.competitions': 'Contest log',
     'home.blog': 'Latest notes',

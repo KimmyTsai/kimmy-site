@@ -466,6 +466,76 @@ main {
   }
 }
 
+/* 個人照片：沿用規格表的框線語彙，當作封裝外觀圖。右欄照片在上、規格表在下 */
+.hero-side {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  align-content: start;
+}
+.portrait {
+  margin: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.portrait-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0.7rem 1rem;
+  border-block-end: 1px solid var(--rule);
+  background: var(--bg-tint);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.portrait-frame {
+  position: relative;
+  padding: 0.75rem;
+}
+.portrait-frame img {
+  display: block;
+  width: 100%;
+  /* 固定比例 + cover：後台換上任何尺寸的照片都不會把版面撐開 */
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--bg-tint);
+}
+/* 對角兩個裁切標記，像機構圖上的尺寸線 */
+.portrait-frame::before,
+.portrait-frame::after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--accent);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.portrait-frame::before {
+  top: 4px;
+  left: 4px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.portrait-frame::after {
+  right: 4px;
+  bottom: 4px;
+  border-left: 0;
+  border-top: 0;
+}
+/* 單欄時照片不要佔滿整個螢幕寬 */
+@media (max-width: 61.99rem) {
+  .portrait {
+    max-width: 19rem;
+  }
+}
+
 /* 規格表：整個網站的核心視覺隱喻 */
 .spec {
   border: 1px solid var(--rule-strong);
