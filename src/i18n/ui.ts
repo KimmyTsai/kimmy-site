@@ -24,6 +24,7 @@ export const ui = {
 
     'home.now': '近期在做',
     'home.portrait': '照片',
+    'home.tabTitle': '個人網頁',
     'home.projects': '精選專案',
     'home.competitions': '競賽紀錄',
     'home.blog': '最新筆記',
@@ -85,6 +86,7 @@ export const ui = {
 
     'home.now': 'Currently',
     'home.portrait': 'Portrait',
+    'home.tabTitle': 'Personal site',
     'home.projects': 'Selected work',
     'home.competitions': 'Contest log',
     'home.blog': 'Latest notes',
