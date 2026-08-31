@@ -36,12 +36,25 @@ src/
 ├── data/           JSON 設定與個人資料
 ├── i18n/ui.ts      介面字串、localePath()、splitId()、日期格式
 ├── lib/content.ts  依語系取內容、閱讀時間、localesFor()
-├── lib/github.ts   build 時抓 GitHub repo（含失敗回退）
+├── lib/github.ts   抓 GitHub repo（單次呼叫＋process 內快取，含失敗回退）
 └── styles/global.css   全站樣式（手寫，沒有 Tailwind / UI kit）
 ```
 
 **新增頁面的流程**：在 `views/` 寫實作（收 `locale` prop）→ 在 `pages/` 和 `pages/en/` 各放一個薄路由檔。
 兩邊都要加，否則某個語系會缺頁。
+
+## GitHub 倉庫區塊的請求量
+
+`lib/github.ts` 有兩個保護，改動前先看懂，不然開發時會一直看到
+「取得倉庫失敗 … HTTP 403」洗版：
+
+- **模組層快取。** `getRepos()` 每次 HomeView render 都會被呼叫（build 時中英各一次，
+  dev server 則是每次請求／熱重載）。promise 存在模組層，整個 process 只實際抓一次。
+- **固定一次 API 呼叫。** 抓一次使用者的倉庫列表再自己挑出 `pinned`，
+  不要退回「逐一呼叫 `/repos/{owner}/{name}`」的寫法——那會讓請求量等於 pinned 的數量。
+
+匿名配額是每小時 60 次，很容易在開發時燒光。實測現在一次 build 只用 1 次。
+部署平台若常限流，設環境變數 `GITHUB_TOKEN`（public repo 唯讀即可）可提升到 5000 次/小時。
 
 ## 內容慣例
 
