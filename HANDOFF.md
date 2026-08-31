@@ -21,7 +21,7 @@ npm run dev          # → http://localhost:4321，先看看網站
 **第一次可以直接貼這段給它：**
 
 > 這是我的個人網站專案，先讀 CLAUDE.md 和 HANDOFF.md。
-> 讀完先跑 `npm run check` 和 `npm run build` 確認現況是乾淨的（應該是 0 errors、23 頁），
+> 讀完先跑 `npm run check` 和 `npm run build` 確認現況是乾淨的（應該是 0 errors、29 頁），
 > 然後把 HANDOFF.md 裡「上線前必做」那一節的項目做完，需要我提供的資訊直接問我。
 
 建議第一件事就是 `git init` 並提交一版，之後所有改動才有得比對：
@@ -37,7 +37,7 @@ git init && git add . && git commit -m "init: 個人網站初版（Astro + Svelt
 | 項目 | 狀態 |
 | --- | --- |
 | `npm run check` | 0 errors / 0 warnings / 0 hints |
-| `npm run build` | 23 頁 |
+| `npm run build` | 29 頁 |
 | 前台 | 中英文完成，導覽、語言切換、深淺色模式都測過 |
 | 後台 `/admin` | 設定完成，**本機模式現在就能用**（見下方） |
 | 部署 | **尚未進行** |
@@ -66,7 +66,7 @@ git init && git add . && git commit -m "init: 個人網站初版（Astro + Svelt
 
 | 檔案 | 要改什麼 |
 | --- | --- |
-| `src/data/site.json` | `github` → 你的 GitHub 帳號（現在是 `YOUR_GITHUB_USERNAME`，出現 6 次）<br>`domain`、`repoUrl`、`socials` 裡的 LinkedIn |
+| `src/data/site.json` | `github` / `repoUrl` / `socials` 已填為 KimmyTsai；只剩 `domain` 要換成正式網址 |
 | `astro.config.mjs` | `site` → 你的正式網址（現在是 `kimmy.dev`） |
 | `public/robots.txt` | 最後一行的 sitemap 網址 |
 | `public/admin/config.yml` | `repo` 和 `base_url`（`base_url` 要等 OAuth Worker 部署完才有值） |

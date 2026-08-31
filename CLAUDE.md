@@ -11,7 +11,7 @@ Kimmy（成大資工）的個人網站。Astro 靜態網站，中英雙語，`/a
 
 ```bash
 npm run dev      # http://localhost:4321
-npm run build    # → dist/，目前應產生 23 頁
+npm run build    # → dist/，目前應產生 29 頁
 npm run check    # astro check；目前是 0 errors / 0 warnings / 0 hints，請維持
 npm run preview  # 預覽 dist/
 ```
@@ -63,10 +63,10 @@ collections：`blog`、`projects`、`competitions`、`pages`（只有 about）�
 `src/content.config.ts` 裡每個 collection 都傳了 `generateId: idFromPath`。**不要拿掉。**
 
 Astro 的 glob loader 預設會拿 frontmatter 的 `slug` 欄位當 entry id。後台會把 `slug` 寫進 frontmatter，
-而中英文兩份共用同一個 slug，於是兩筆內容撞成同一個 id、其中一份被靜默丟掉（頁數會從 23 掉到 17）。
+而中英文兩份共用同一個 slug，於是兩筆內容撞成同一個 id、其中一份被靜默丟掉（每個 collection 的中英各一份會塌成一份，總頁數明顯掉下來）。
 `generateId: idFromPath` 強制用檔案路徑產生 id，語系資料夾才不會被吃掉。
 
-改動 `content.config.ts` 後請確認 `npm run build` 仍是 23 頁。
+改動 `content.config.ts` 後請確認 `npm run build` 仍是 29 頁。
 
 ### 2. CMS 設定與 schema 必須同步
 
@@ -101,7 +101,7 @@ Astro 的 glob loader 預設會拿 frontmatter 的 `slug` 欄位當 entry id。�
 ## 目前狀態
 
 - `npm run check`：0 errors / 0 warnings / 0 hints
-- `npm run build`：23 頁
+- `npm run build`：29 頁
 - **尚未部署**，也還沒 `git init`
 - 內容是依使用者真實經歷撰寫的中英文各一份（不是 placeholder），但見 `HANDOFF.md` 的待確認清單
 
@@ -109,7 +109,6 @@ Astro 的 glob loader 預設會拿 frontmatter 的 `slug` 欄位當 entry id。�
 
 **不要自己猜、不要自己填**，需要時直接問她：
 
-- GitHub 帳號（目前全部是 `YOUR_GITHUB_USERNAME` 佔位）
 - 正式網域（目前是 `kimmy.dev` 佔位）
 - `src/content/competitions/` 裡的**比賽日期與名次**——目前的值是推估的，必須由她核對
 - 她的中文姓名（`profile.*.json` 的 `altName` 目前留空）
