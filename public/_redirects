@@ -1,3 +1,11 @@
 # Cloudflare Pages 轉址規則。一行一條：來源 目標 狀態碼
 # 舊網址搬家時寫在這裡，例：
 # /old-post  /blog/new-post  301
+
+# 專案改名 shack256 -> shake256（2026-08）。
+# 舊網址在 Cloudflare 邊緣被快取了 7 天，會繼續回舊頁面；
+# 這條規則讓它轉到新網址，也讓任何存了舊連結的人不會撞到 404。
+/projects/shack256-slh-dsa      /projects/shake256-slh-dsa      301
+/projects/shack256-slh-dsa/*    /projects/shake256-slh-dsa      301
+/en/projects/shack256-slh-dsa   /en/projects/shake256-slh-dsa   301
+/en/projects/shack256-slh-dsa/* /en/projects/shake256-slh-dsa   301
