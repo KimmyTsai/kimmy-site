@@ -79,6 +79,27 @@ Astro 的 glob loader 預設會拿 frontmatter 的 `slug` 欄位當 entry id。�
 `prefixDefaultLocale: false`：中文在根路徑（`/about`），英文有前綴（`/en/about`）。
 產生連結一律用 `localePath(locale, path)`，不要手寫字串拼接。
 
+## Markdown 處理
+
+`astro.config.mjs` 的 markdown 區塊掛了三個東西，順序有意義：
+
+1. `remarkDirective` — 解析 `:::` 語法
+2. `remarkCallout`（`src/lib/remark-callout.mjs`）— 把 directive 轉成 `<aside class="callout callout-*">`
+3. `rehypeHeadingIds` + `rehypeAutolinkHeadings` — 標題錨點
+
+**`rehypeHeadingIds` 必須手動放在 `rehypeAutolinkHeadings` 前面。** Astro 內建的
+heading id 產生器預設排在使用者 rehype plugin 之後，那時 autolink 看不到 id 會整個跳過，
+標題就不會有錨點——而且不會報錯，只是靜靜地沒作用。
+
+提示框的標題語言是用**檔案路徑**判斷的（`/en/` 就是英文），因為中英文是兩份獨立檔案。
+
+提示框刻意只用「中性灰 + 主色」兩級，沒有引入藍／黃／紅。設計系統只允許一個彩色，
+見下方規矩。要加新類型就在 `TITLES` 補一筆，CSS 預設樣式會自動套用。
+
+程式碼區塊的語言標籤與複製鈕是在前端補的（`Base.astro` 的 `setupCodeBlocks`），
+不是 build 時產生。它會把 `<pre>` 包一層 `.code-block`，並用 `data-language` 取語言。
+掛在 `astro:page-load` 上，換頁後會重跑；已包過的會跳過。
+
 ## 設計系統規矩
 
 主題叫 **Datasheet（規格書）**，隱喻來自使用者的硬體背景（RISC-V / FPGA / 後量子密碼）。

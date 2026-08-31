@@ -1147,6 +1147,162 @@ main {
   font-weight: 500;
 }
 
+/* 標題錨點：滑過標題才浮出來的 #，方便複製段落連結 */
+.prose :is(h2, h3, h4) {
+  scroll-margin-top: 5rem;
+}
+.prose .heading-anchor {
+  margin-inline-start: 0.4em;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.prose :is(h2, h3, h4):hover .heading-anchor {
+  opacity: 1;
+}
+/* 觸控裝置沒有 hover，讓它淡淡地一直在 */
+@media (hover: none) {
+  .prose .heading-anchor {
+    opacity: 0.35;
+  }
+}
+
+/* HackMD 風格提示框。語法與可用類型見 src/lib/remark-callout.mjs
+   刻意不引入第二個彩色（設計系統只有一個主色）：中性的用灰階，
+   要人停下來看的 warning / danger 才用主色。 */
+.callout {
+  border: 1px solid var(--rule);
+  border-inline-start: 3px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg-tint);
+  padding: 0.9rem 1.1rem;
+  font-size: var(--step--1);
+}
+.callout > * + * {
+  margin-block-start: 0.7em;
+}
+.callout > :last-child {
+  margin-block-end: 0;
+}
+.callout-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.callout-warning,
+.callout-danger {
+  border-inline-start-color: var(--accent);
+}
+.callout-warning .callout-title,
+.callout-danger .callout-title {
+  color: var(--accent);
+}
+.callout-danger {
+  border-inline-start-width: 5px;
+}
+
+/* 程式碼區塊：上方一條標頭列，左邊語言、右邊複製鈕（由 Base.astro 的 script 加上去）。
+   標頭列做成獨立一列而不是浮在右上角，因為 shiki 設了 wrap: true，
+   長行會折行、浮動的按鈕會壓到程式碼。 */
+.code-block {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.code-block pre.astro-code {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+.code-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--bg-tint);
+  border-block-end: 1px solid var(--rule);
+}
+.code-lang {
+  color: var(--ink-3);
+}
+.code-copy {
+  margin-inline-start: auto;
+}
+.code-copy {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--ink-3);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.code-copy:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+.code-copy.is-done {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* GFM 待辦清單 */
+.prose ul:has(> .task-list-item) {
+  padding-inline-start: 0;
+  list-style: none;
+}
+.prose .task-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+}
+.prose .task-list-item input {
+  accent-color: var(--accent);
+  translate: 0 0.1em;
+}
+
+/* GFM 註腳 */
+.prose .footnotes {
+  margin-block-start: 3em;
+  padding-block-start: 1.2em;
+  border-block-start: 1px solid var(--rule);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+.prose .footnotes h2 {
+  font-size: var(--step-0);
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 0;
+  margin-block-start: 0;
+}
+.prose sup a {
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.prose kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  border: 1px solid var(--rule-strong);
+  border-block-end-width: 2px;
+  border-radius: var(--radius);
+  padding: 0.1em 0.4em;
+  background: var(--bg-tint);
+}
+
 /* Shiki 雙主題 */
 .astro-code,
 .astro-code span {

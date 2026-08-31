@@ -42,7 +42,7 @@ const t = useTranslations(locale);
   <body>
     <a class="skip-link" href="#main">{t('nav.skip')}</a>
     <Header locale={locale} pathKey={pathKey} availableIn={availableIn} />
-    <main id="main">
+    <main id="main" data-copy={t('action.copy')} data-copied={t('action.copied')}>
       <slot />
     </main>
     <Footer locale={locale} />
@@ -105,9 +105,61 @@ const t = useTranslations(locale);
         }
       }
 
+      // 程式碼區塊：補上語言標籤與複製鈕。
+      // Shiki 產出的是 <pre class="astro-code" data-language="…">，
+      // 這裡把它包一層好定位；pre 本身有 overflow-x，按鈕放進去會被捲走。
+      function setupCodeBlocks() {
+        const labels = document.getElementById('main')?.dataset ?? {};
+        const copy = labels.copy ?? 'Copy';
+        const copied = labels.copied ?? 'Copied';
+
+        document.querySelectorAll('.prose pre.astro-code').forEach((pre) => {
+          const el = pre as HTMLElement;
+          if (el.parentElement?.classList.contains('code-block')) return;
+
+          const wrap = document.createElement('div');
+          wrap.className = 'code-block';
+          el.parentNode?.insertBefore(wrap, el);
+          wrap.appendChild(el);
+
+          const bar = document.createElement('div');
+          bar.className = 'code-bar';
+
+          const lang = el.dataset.language;
+          if (lang && lang !== 'plaintext') {
+            const tag = document.createElement('span');
+            tag.className = 'code-lang';
+            tag.textContent = lang;
+            bar.appendChild(tag);
+          }
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'code-copy';
+          btn.textContent = copy;
+          btn.addEventListener('click', async () => {
+            const text = el.querySelector('code')?.textContent ?? el.textContent ?? '';
+            try {
+              await navigator.clipboard.writeText(text);
+              btn.textContent = copied;
+              btn.classList.add('is-done');
+              setTimeout(() => {
+                btn.textContent = copy;
+                btn.classList.remove('is-done');
+              }, 1600);
+            } catch {
+              // 沒有剪貼簿權限（非 HTTPS 之類）就安靜略過，內容仍可自行選取
+            }
+          });
+          bar.appendChild(btn);
+          wrap.insertBefore(bar, el);
+        });
+      }
+
       function boot() {
         setupTheme();
         setupProbe();
+        setupCodeBlocks();
       }
 
       document.addEventListener('keydown', onKey);
