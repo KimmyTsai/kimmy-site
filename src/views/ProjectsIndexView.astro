@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectCards from '../components/ProjectCards.astro';
+import { pageTitle } from '../lib/profile';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { getProjects } from '../lib/content';
 
@@ -13,7 +14,7 @@ const projects = await getProjects(locale);
 ---
 
 <Base
-  title={`${t('projects.title')} — Kimmy`}
+  title={pageTitle(locale, t('projects.title'))}
   description={t('projects.description')}
   locale={locale}
   pathKey="/projects"

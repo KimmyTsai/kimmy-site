@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PostList from '../components/PostList.astro';
+import { pageTitle } from '../lib/profile';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { getPosts } from '../lib/content';
 
@@ -13,7 +14,7 @@ const posts = await getPosts(locale);
 ---
 
 <Base
-  title={`${t('blog.title')} — Kimmy`}
+  title={pageTitle(locale, t('blog.title'))}
   description={t('blog.description')}
   locale={locale}
   pathKey="/blog"

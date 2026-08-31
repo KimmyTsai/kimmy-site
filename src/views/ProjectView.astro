@@ -2,6 +2,7 @@
 import { render, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SpecSheet from '../components/SpecSheet.astro';
+import { pageTitle } from '../lib/profile';
 import { localePath, useTranslations, splitId, type Locale } from '../i18n/ui';
 import { localesFor } from '../lib/content';
 
@@ -24,7 +25,7 @@ const spec = [
 ---
 
 <Base
-  title={`${d.title} — Kimmy`}
+  title={pageTitle(locale, d.title)}
   description={d.summary}
   locale={locale}
   pathKey={`/projects/${slug}`}

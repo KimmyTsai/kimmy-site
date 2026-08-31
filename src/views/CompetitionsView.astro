@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import CompetitionLog from '../components/CompetitionLog.astro';
+import { pageTitle } from '../lib/profile';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { getCompetitions } from '../lib/content';
 
@@ -23,7 +24,7 @@ const placed = entries.filter((e) => e.data.highlight).length;
 ---
 
 <Base
-  title={`${t('competitions.title')} — Kimmy`}
+  title={pageTitle(locale, t('competitions.title'))}
   description={t('competitions.description')}
   locale={locale}
   pathKey="/competitions"

@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import { useTranslations, localePath } from '../i18n/ui';
+import { pageTitle } from '../lib/profile';
 const t = useTranslations('zh-tw');
 const en = useTranslations('en');
 ---
 
-<Base title="404 — Kimmy" description={t('404.body')} locale="zh-tw" pathKey="/404">
+<Base title={pageTitle('zh-tw', '404')} description={t('404.body')} locale="zh-tw" pathKey="/404">
   <div class="wrap" style="padding-block:clamp(4rem,14vw,10rem);max-width:52rem">
     <p class="label">error 404 · page not found</p>
 
