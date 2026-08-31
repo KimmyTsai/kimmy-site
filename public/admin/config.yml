@@ -85,6 +85,9 @@ collections:
   # ---------------------------------------------------------------- 專案
   - name: projects
     label: 專案
+    # 列表頁會多出「Reorder」按鈕，可以直接拖曳專案調整順序。
+    # 順序寫回 order 欄位（reorder 的預設 key 就是 order）。
+    reorder: true
     label_singular: 一個專案
     folder: src/content/projects
     create: true
@@ -96,8 +99,15 @@ collections:
       - { label: 網址代稱 slug, name: slug, widget: string, i18n: duplicate }
       - { label: 標題, name: title, widget: string, i18n: true }
       - { label: 一句話說明, name: summary, widget: text, i18n: true }
-      - { label: 排序（數字小的排前面）, name: order, widget: number, default: 99, value_type: int, i18n: duplicate }
-      - { label: 放上首頁精選, name: featured, widget: boolean, default: false, i18n: duplicate }
+      - {
+          label: 排序,
+          name: order,
+          widget: number,
+          default: 99,
+          value_type: int,
+          i18n: duplicate,
+          hint: 數字小的排前面，最前面四個會出現在首頁。通常不用手動改——回到列表頁按「Reorder」直接拖曳比較快。,
+        }
       - { label: 期間, name: period, widget: string, required: false, i18n: true }
       - { label: 我的角色, name: role, widget: string, required: false, i18n: true }
       - { label: 技術, name: stack, widget: list, default: [], required: false, i18n: duplicate }

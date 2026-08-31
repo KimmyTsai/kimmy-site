@@ -3,7 +3,6 @@ slug: cmoney-ai-investment
 title: AI Investment Companion
 summary: Built for the CMoney × AWS AI Hackathon — turning a portfolio tracker from a bookkeeping form into something that speaks first.
 order: 3
-featured: true
 period: 2026.07 – 2026.08
 role: Overall application architecture, concept development
 stack: [Python, Streamlit, Amazon Bedrock, Claude, Ollama, EasyOCR]

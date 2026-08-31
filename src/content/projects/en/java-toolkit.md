@@ -3,7 +3,6 @@ slug: java-toolkit
 title: Java Coursework
 summary: A year of Java output — a TF-IDF search engine, a stock scraper and analysis tool, a Mermaid-to-Java code generator, and a card game.
 order: 6
-featured: false
 period: '2024'
 role: Individual / team
 stack: [Java, jsoup, OOP]

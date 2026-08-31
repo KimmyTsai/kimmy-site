@@ -3,7 +3,6 @@ slug: shake256-slh-dsa
 title: SHAKE-256：為 SLH-DSA 設計的 RISC-V 指令集擴充
 summary: 在 CV32E40P 上加一組 320-bit SIMD 指令，把後量子簽章的 Keccak 熱點吃掉，於 PYNQ-Z2 實測驗證。
 order: 1
-featured: true
 period: 2025.09 – 2026.06
 role: FPGA 整合、bitstream 燒錄、硬體實測
 stack:

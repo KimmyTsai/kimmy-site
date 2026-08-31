@@ -30,8 +30,9 @@ const [posts, projects, competitions, gh] = await Promise.all([
   getRepos(),
 ]);
 
-const featured = projects.filter((x) => x.data.featured).slice(0, 4);
-const shownProjects = featured.length ? featured : projects.slice(0, 4);
+// 首頁只顯示排序最前面的四個。getProjects() 已經照 order 由小到大排好，
+// 所以「要放上首頁」＝「把 order 調前面」，只有一個控制項要管。
+const shownProjects = projects.slice(0, 4);
 ---
 
 <Base

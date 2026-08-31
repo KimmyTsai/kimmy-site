@@ -3,7 +3,6 @@ slug: java-toolkit
 title: Java 程式設計作品
 summary: 大二那年的 Java 產出——TF-IDF 搜尋引擎、股價爬蟲與分析工具、Mermaid 類圖轉程式碼，以及一款卡牌遊戲。
 order: 6
-featured: false
 period: '2024'
 role: 個人／小組
 stack: [Java, jsoup, OOP]

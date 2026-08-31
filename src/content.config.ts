@@ -42,7 +42,6 @@ const projects = defineCollection({
     summary: z.string(),
     // 排序用，數字越小越前面
     order: z.number().default(99),
-    featured: z.boolean().default(false),
     period: z.string().optional(), // 例：2025.09 – 2026.06
     role: z.string().optional(),
     stack: z.array(z.string()).default([]),

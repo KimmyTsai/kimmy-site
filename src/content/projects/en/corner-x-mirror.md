@@ -3,7 +3,6 @@ slug: corner-x-mirror
 title: Corner.X — A Data Network for Street Mirrors
 summary: Turning the convex traffic mirrors nobody maintains into a ranked, dispatchable inventory, using street-view imagery and open accident data.
 order: 2
-featured: true
 period: Proposal 2025.03 · DevJam 2026.08
 role: Problem framing, system design
 stack: [Python, Google Cloud, BigQuery, Vertex AI, Gemini, Cloud Run, Street View API]

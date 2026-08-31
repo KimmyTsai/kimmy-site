@@ -3,7 +3,6 @@ slug: hardware-misc
 title: Coursework in Hardware
 summary: Embedded and Verilog coursework — a PIC18 touchpad gaming system, an FPGA ping-pong game, and an exercise in RISC-V assembly.
 order: 4
-featured: true
 period: 2025 – 2026
 role: Individual / team
 stack: [Verilog, C, XC8, PIC18F4520, FPGA, Python, RISC-V]

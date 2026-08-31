@@ -3,7 +3,6 @@ slug: corner-x-mirror
 title: Corner.X — 城市反射鏡數據網
 summary: 用街景影像與事故開放資料，把散落在路口、沒人管的凸面反射鏡變成一份可派工、可排序的清冊。
 order: 2
-featured: true
 period: 2025.03 提案 · 2026.08 DevJam
 role: 題目發想、系統設計
 stack: [Python, Google Cloud, BigQuery, Vertex AI, Gemini, Cloud Run, Street View API]

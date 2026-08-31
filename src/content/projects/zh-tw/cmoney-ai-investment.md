@@ -3,7 +3,6 @@ slug: cmoney-ai-investment
 title: AI 投資樹洞
 summary: CMoney × AWS AI Hackathon 作品。把「股票庫存」從記帳工具改造成會主動開口的投資夥伴。
 order: 3
-featured: true
 period: 2026.07 – 2026.08
 role: 整體網站架構、創意發想
 stack: [Python, Streamlit, Amazon Bedrock, Claude, Ollama, EasyOCR]

@@ -3,7 +3,6 @@ slug: shake256-slh-dsa
 title: 'SHACK-256: a RISC-V ISA extension for SLH-DSA'
 summary: 320-bit SIMD instructions on CV32E40P that swallow the Keccak hot path of post-quantum signatures, validated on a PYNQ-Z2.
 order: 1
-featured: true
 period: Sep 2025 – Jun 2026
 role: FPGA integration, bitstream programming, hardware testing
 stack:

@@ -3,7 +3,6 @@ slug: hardware-misc
 title: 課程硬體作品集
 summary: 嵌入式與 Verilog 的課程作品——PIC18 觸控板遊戲系統、FPGA 彈球遊戲，以及一次 RISC-V 組語練習。
 order: 4
-featured: true
 period: 2025 – 2026
 role: 個人／小組
 stack: [Verilog, C, XC8, PIC18F4520, FPGA, Python, RISC-V]

@@ -3,7 +3,6 @@ slug: systems-programming
 title: 作業系統與系統程式
 summary: 用 C 把作業系統課本裡的東西一個一個做出來——shell、檔案系統、kernel module、semaphore。
 order: 5
-featured: false
 period: 2025.10 – 2026.01
 role: 個人
 stack: [C, Linux, Kernel Module, POSIX]

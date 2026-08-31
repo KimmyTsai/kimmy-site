@@ -69,6 +69,18 @@ src/content/<collection>/<locale>/<slug>.md
 
 collections：`blog`、`projects`、`competitions`、`pages`（只有 about）。
 
+## 專案排序
+
+只有一個控制項：`order`。數字小的排前面，`HomeView` 取前四個放首頁。
+
+原本還有一個 `featured` 布林欄位控制首頁顯示，已經移除——兩個欄位都影響首頁
+會讓人搞不清楚（實際發生過：使用者調了 order 卻不懂為什麼首頁沒變）。
+不要再加回來。
+
+後台的 `projects` collection 設了 `reorder: true`，列表頁可以直接拖曳排序，
+順序寫回 `order`（Sveltia 的 reorder 預設 key 就是 `order`，所以不用另外指定）。
+這個選項沒有寫在官方文件裡，但 bundle 裡確實有實作。
+
 ## 三個一定要知道的陷阱
 
 ### 1. glob loader 會被 frontmatter 的 `slug` 綁架 ← 最重要

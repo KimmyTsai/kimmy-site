@@ -3,7 +3,6 @@ slug: systems-programming
 title: Operating Systems & Systems Programming
 summary: Building the operating systems textbook one piece at a time in C — a shell, a file system, a kernel module, semaphores.
 order: 5
-featured: false
 period: 2025.10 – 2026.01
 role: Individual
 stack: [C, Linux, Kernel Module, POSIX]
