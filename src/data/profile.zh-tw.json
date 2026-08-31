@@ -1,17 +1,35 @@
 {
-  "name": "Kimmy",
+  "name": "Kimmy Tsai",
   "altName": "",
   "role": "資工系學生 · 硬體加速與後量子密碼",
   "location": "台南，台灣",
   "tagline": "把密碼學塞進矽晶片裡，順便寫一點字。",
   "intro": "成大資工在學。主要待在硬體那一側：RISC-V 指令集擴充、FPGA 驗證、後量子簽章的加速。剩下的時間拿去打黑客松，以及把踩過的坑寫下來。",
   "spec": [
-    { "k": "PART NO.", "v": "KIMMY · CSIE" },
-    { "k": "PACKAGE", "v": "國立成功大學 資訊工程學系" },
-    { "k": "PROCESS", "v": "RISC-V · FPGA · 後量子密碼" },
-    { "k": "TOOLCHAIN", "v": "Verilog · C · Python · Vivado · VCS" },
-    { "k": "I/O", "v": "中文 · English (TOEIC 915) · 日本語" },
-    { "k": "REV.", "v": "2026.08" }
+    {
+      "k": "PART NO.",
+      "v": "KIMMY · CSIE"
+    },
+    {
+      "k": "PACKAGE",
+      "v": "國立成功大學 資訊工程學系"
+    },
+    {
+      "k": "PROCESS",
+      "v": "RISC-V · FPGA · 後量子密碼"
+    },
+    {
+      "k": "TOOLCHAIN",
+      "v": "Verilog · C · Python · Vivado · VCS"
+    },
+    {
+      "k": "I/O",
+      "v": "中文 · English (TOEIC 915) · 日本語"
+    },
+    {
+      "k": "REV.",
+      "v": "2026.08"
+    }
   ],
   "now": [
     "整理研究所推甄資料，研究計畫以畢業專題的 SLH-DSA 硬體加速為主軸。",

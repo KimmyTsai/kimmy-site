@@ -1,29 +1,39 @@
 ---
 slug: hardware-misc
-title: Coursework hardware portfolio
-summary: Embedded, Verilog and algorithm-to-hardware coursework — NTT, a FIFO arbiter, PIC18 servo control.
-order: 3
-featured: false
+title: Coursework in Hardware
+summary: Embedded and Verilog coursework — a PIC18 touchpad gaming system, an FPGA ping-pong game, and an exercise in RISC-V assembly.
+order: 4
+featured: true
 period: 2025 – 2026
-role: Individual / small team
-stack: [Verilog, XC8, PIC18F4520, C, RISC-V]
+role: Individual / team
+stack: [Verilog, C, XC8, PIC18F4520, FPGA, Python, RISC-V]
 draft: false
 ---
 
-A set of coursework and self-directed builds, grouped together because collectively they are what made the capstone possible.
+Output from coursework and self-directed practice. They belong together because collectively they are what made the capstone project possible — in particular the lesson that signals jitter, which is not something you meet in front of a screen.
 
-## 256-point NTT hardware module
+## PIC18F4520 touchpad gaming system
 
-The Number Theoretic Transform is the core operation of lattice-based cryptography. This module implements a 256-point NTT, handling modular arithmetic and pipelining the butterfly structure. Finishing it gave me a concrete sense of why cryptographic hardware implementation deserves a course of its own.
+The embedded systems course project, and the most complete thing in this group.
 
-## FIFO arbiter
+A PIC18F4520 microcontroller paired with a 4-wire resistive touchpad streams touch coordinates to a PC over UART, where Python (pygame) drives two games: an osu!-style rhythm game that needs precise absolute positioning, and a bowling game with friction simulation.
 
-A module that looked trivial and cost me the most time. **Functional simulation passed cleanly; post-synthesis simulation did not agree** — the root cause turned out to be a gap between my timing assumptions and real gate delays. It was the first time I properly understood that "simulation passes" is not "it works".
+The hardware side carries more than it looks: time-multiplexed ADC scanning (a 4-wire panel has to measure X and Y in alternation), digital filtering, packet framing, and a servo feedback mechanism.
 
-## PIC18F4520: servo motor × touchpad
+What actually consumed the time was **signal quality**. Raw readings from a resistive panel jitter — badly enough that feeding them straight to a cursor is unusable. Coming from pure software, this is disorienting the first time: the logic is correct, the output is wrong, and the problem is not in the program at all.
 
-Embedded systems course project: touchpad input driving a servo motor, with PWM generation, a Timer0 interrupt, and a debounce layer in between. Developed in XC8 / C. A useful shock for someone whose signals had previously always been clean.
+→ [PIC18F4520-Driven-Touchpad-Gaming-System](https://github.com/KimmyTsai/PIC18F4520-Driven-Touchpad-Gaming-System)
 
-## RISC-V inline assembly: linked list merge sort
+## FPGA ping-pong game
 
-A computer organization exercise implementing merge sort over a linked list in RISC-V inline assembly. It took several debugging passes to converge, but register allocation and the calling convention finally stopped being abstractions.
+A digital systems course project: a ping-pong game in Verilog on an FPGA, with VGA output, keypad control, and a seven-segment display and dot matrix showing score and direction.
+
+What makes it interesting is that everything has to happen at once. VGA timing does not wait for you; scanning, input sampling, and score updates each have to finish inside their own clock domain. Intuitions built on sequential programming are no help here.
+
+→ [FPGA-Ping-Pong-Game](https://github.com/KimmyTsai/FPGA-Ping-Pong-Game)
+
+## RISC-V inline assembly
+
+A computer organization exercise: merge sort over a linked list, written in RISC-V inline assembly. It took a lot of debugging to converge, but it forced a real understanding of register allocation and calling conventions — which paid off directly later when reading CV32E40P source for the capstone.
+
+→ [Computer-Organization-PA3](https://github.com/KimmyTsai/Computer-Organization-PA3)

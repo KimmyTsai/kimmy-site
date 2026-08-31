@@ -1,43 +1,82 @@
 {
-  "_comment": "全站設定（與語言無關）。部署前請把 github / email / domain 改成你自己的。",
   "domain": "kimmy.dev",
-  "github": "YOUR_GITHUB_USERNAME",
+  "github": "KimmyTsai",
   "email": "kimmy567567@gmail.com",
-  "repoUrl": "https://github.com/YOUR_GITHUB_USERNAME/kimmy-site",
+  "repoUrl": "https://github.com/KimmyTsai/kimmy-site",
   "license": "CC BY-NC 4.0",
   "licenseUrl": "https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hant",
   "socials": [
-    { "label": "GitHub", "url": "https://github.com/YOUR_GITHUB_USERNAME" },
-    { "label": "Email", "url": "mailto:kimmy567567@gmail.com" },
-    { "label": "LinkedIn", "url": "" }
+    {
+      "label": "GitHub",
+      "url": "https://github.com/KimmyTsai"
+    },
+    {
+      "label": "Email",
+      "url": "mailto:kimmy567567@gmail.com"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/%E4%B8%9E%E6%98%95-%E8%94%A1-838452313/"
+    }
   ],
   "repos": {
-    "_comment": "pinned 留空 = 自動顯示 GitHub 上最近更新的公開倉庫；填了就只顯示這幾個（順序照填的順序）。fallback 是 GitHub API 掛掉時的備援清單。",
-    "pinned": [],
+    "pinned": [
+      "corner-x-mirror",
+      "CMoney_Hackathon",
+      "PIC18F4520-Driven-Touchpad-Gaming-System",
+      "FPGA-Ping-Pong-Game",
+      "Shell-Implementation-In-C",
+      "Search-with-TF-IDF"
+    ],
     "count": 6,
-    "exclude": ["YOUR_GITHUB_USERNAME"],
+    "exclude": [
+      "KimmyTsai"
+    ],
     "fallback": [
       {
-        "name": "shack256-riscv",
-        "description": "RISC-V SHACK-256 instruction set extension for SLH-DSA post-quantum signatures, on CV32E40P.",
-        "language": "Verilog",
+        "name": "corner-x-mirror",
+        "description": "Corner.X 城市反射鏡數據網：用街景影像與事故開放資料排序反射鏡的維護與設置需求。DevJam 2026 Google Cloud 賽道。",
+        "language": "Python",
         "stars": 0,
-        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+        "url": "https://github.com/KimmyTsai/corner-x-mirror"
       },
       {
-        "name": "pic18-servo-touchpad",
-        "description": "PIC18F4520 embedded project: servo control driven by touchpad input (PWM, Timer0, debounce).",
+        "name": "CMoney_Hackathon",
+        "description": "AI 投資樹洞：以 Amazon Bedrock 做組合層診斷與持股警示的投資夥伴。CMoney × AWS AI Hackathon。",
+        "language": "Python",
+        "stars": 0,
+        "url": "https://github.com/KimmyTsai/CMoney_Hackathon"
+      },
+      {
+        "name": "PIC18F4520-Driven-Touchpad-Gaming-System",
+        "description": "PIC18F4520 搭配四線式電阻觸控板，經 UART 串到 PC 端的 pygame 遊戲；含 ADC 分時掃描、數位濾波與伺服回饋。",
         "language": "C",
         "stars": 0,
-        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+        "url": "https://github.com/KimmyTsai/PIC18F4520-Driven-Touchpad-Gaming-System"
       },
       {
-        "name": "ntt-256-verilog",
-        "description": "256-point Number Theoretic Transform hardware module in Verilog.",
+        "name": "FPGA-Ping-Pong-Game",
+        "description": "Verilog 在 FPGA 上實作的彈球遊戲：VGA 輸出、Keypad 控制、七段顯示器與 dot matrix 顯示分數與方向。",
         "language": "Verilog",
         "stars": 0,
-        "url": "https://github.com/YOUR_GITHUB_USERNAME"
+        "url": "https://github.com/KimmyTsai/FPGA-Ping-Pong-Game"
+      },
+      {
+        "name": "Shell-Implementation-In-C",
+        "description": "用 C 實作的 shell，支援內建與外部指令，以及用 pipe 串接的多重指令。",
+        "language": "C",
+        "stars": 0,
+        "url": "https://github.com/KimmyTsai/Shell-Implementation-In-C"
+      },
+      {
+        "name": "Search-with-TF-IDF",
+        "description": "以 TF-IDF 計算關鍵字權重的簡易搜尋引擎，索引建立與查詢分成兩階段。",
+        "language": "Java",
+        "stars": 1,
+        "url": "https://github.com/KimmyTsai/Search-with-TF-IDF"
       }
-    ]
-  }
+    ],
+    "_comment": "pinned 留空 = 自動顯示 GitHub 上最近更新的公開倉庫；填了就只顯示這幾個（順序照填的順序）。fallback 是 GitHub API 掛掉時的備援清單。"
+  },
+  "_comment": "全站設定（與語言無關）。部署前請把 github / email / domain 改成你自己的。"
 }
