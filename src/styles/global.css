@@ -416,9 +416,34 @@ main {
   align-items: start;
 }
 @media (min-width: 62rem) {
+  /* 左欄：文字 → 按鈕 → 規格表；右欄：照片，跨兩列。
+     照片是直式的，若和規格表擠在同一欄會把規格表推到很下面。 */
   .hero-grid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(20rem, 0.85fr);
+    grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 0.72fr);
+    grid-template-areas:
+      'main side'
+      'spec side';
+    column-gap: clamp(1.75rem, 5vw, 3.5rem);
+    row-gap: clamp(1.9rem, 4vw, 2.6rem);
   }
+  .hero-main {
+    grid-area: main;
+  }
+  .hero-side {
+    grid-area: side;
+  }
+  .hero-spec {
+    grid-area: spec;
+  }
+  /* 後台把照片清空時，右欄整個不存在，改回單欄 */
+  .hero-grid.no-portrait {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'main' 'spec';
+  }
+}
+/* 規格表對齊左欄的內文寬度，不要橫向拉滿 */
+.hero-spec .spec {
+  max-width: 30rem;
 }
 
 .hero h1 {

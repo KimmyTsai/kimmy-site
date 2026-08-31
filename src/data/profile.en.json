@@ -1,17 +1,35 @@
 {
   "name": "Kimmy",
-  "altName": "",
+  "altName": "蔡丞昕",
   "role": "CS undergrad · hardware acceleration & post-quantum crypto",
   "location": "Tainan, Taiwan",
   "tagline": "Putting cryptography into silicon, and writing about it afterwards.",
   "intro": "Computer Science at National Cheng Kung University. I spend most of my time on the hardware side: RISC-V ISA extensions, FPGA bring-up, and accelerating post-quantum signatures. The rest goes into hackathons, and into writing down what broke.",
   "spec": [
-    { "k": "PART NO.", "v": "KIMMY · CSIE" },
-    { "k": "PACKAGE", "v": "National Cheng Kung University, CSIE" },
-    { "k": "PROCESS", "v": "RISC-V · FPGA · post-quantum crypto" },
-    { "k": "TOOLCHAIN", "v": "Verilog · C · Python · Vivado · VCS" },
-    { "k": "I/O", "v": "Mandarin · English (TOEIC 915) · Japanese" },
-    { "k": "REV.", "v": "2026.08" }
+    {
+      "k": "PART NO.",
+      "v": "KIMMY · CSIE"
+    },
+    {
+      "k": "PACKAGE",
+      "v": "National Cheng Kung University, CSIE"
+    },
+    {
+      "k": "PROCESS",
+      "v": "RISC-V · FPGA · post-quantum crypto"
+    },
+    {
+      "k": "TOOLCHAIN",
+      "v": "Verilog · C · Python · Vivado · VCS"
+    },
+    {
+      "k": "I/O",
+      "v": "Mandarin · English (TOEIC 915) · Japanese"
+    },
+    {
+      "k": "REV.",
+      "v": "2026.08"
+    }
   ],
   "now": [
     "Putting together graduate school applications; the research proposal builds on my capstone work on SLH-DSA hardware acceleration.",
