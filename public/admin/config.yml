@@ -1,17 +1,21 @@
 # =============================================================================
 # 內容後台設定 (Sveltia CMS，設定格式與 Decap CMS 相容)
-#
-# 部署前必改：
-#   1. backend.repo  → 你的 GitHub 帳號/倉庫名
-#   2. backend.base_url → 你部署的 sveltia-cms-auth Worker 網址
-#   （詳細步驟見專案根目錄 README.md 的「開通後台」一節）
+# 登入方式的說明見 README.md 的「開通後台」一節。
 # =============================================================================
 
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/kimmy-site
+  repo: KimmyTsai/kimmy-site
   branch: main
-  base_url: https://sveltia-cms-auth.YOUR_SUBDOMAIN.workers.dev
+
+  # 用 Personal Access Token 登入，不需要 OAuth Worker。
+  # 只列 token 的話，登入畫面就只會出現「Sign In with Token」，
+  # 不會有那顆需要 OAuth 伺服器、按了會壞掉的「Sign in with GitHub」。
+  #
+  # 想改用正式的 OAuth 流程：部署 sveltia-cms-auth Worker，然後
+  #   1. 把 auth_methods 改成 [oauth, token]（或整行刪掉，兩顆都會出現）
+  #   2. 加一行 base_url: https://<你的 worker 網址>
+  auth_methods: [token]
 
 # 想在自己電腦上先試後台？不用改任何設定，也不用 OAuth：
 #   1. npm run dev

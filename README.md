@@ -120,55 +120,64 @@ npm run dev      # → http://localhost:4321
 
 ## 開通後台（/admin）
 
-後台是純前端的，但要登入 GitHub 需要一個 OAuth 中介服務。這個服務官方有現成的，部署到 Cloudflare Workers，一樣免費。
+後台是純前端的，登入靠 GitHub。有兩種方式，**目前設定用的是第一種**。
 
-### 步驟一：部署 OAuth Worker
+### 方式一：用 Personal Access Token（目前採用，不需要任何伺服器）
 
-到 [github.com/sveltia/sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth)，按 README 裡的 **Deploy to Cloudflare Workers** 按鈕。
+`public/admin/config.yml` 設了 `auth_methods: [token]`，所以登入畫面只會出現
+**Sign In with Token** 一顆按鈕。
 
-部署完會拿到一個網址，像 `https://sveltia-cms-auth.你的帳號.workers.dev`。**記下來。**
+**建一把 token：**
 
-### 步驟二：註冊 GitHub OAuth App
+1. 到 <https://github.com/settings/tokens/new>（Tokens (classic)）
+2. Note 隨便填，例如 `kimmy-site admin`
+3. Expiration 自己決定（選 No expiration 就不用定期換，但風險自負）
+4. Select scopes 只勾 **`public_repo`** ← 這個 repo 是 public，勾這個就夠；
+   不要勾整個 `repo`，那會連你所有私有倉庫的讀寫權限都給出去
+5. Generate token，**複製起來**（只會顯示這一次）
 
-到 <https://github.com/settings/applications/new>：
+**用它登入：** 開 `https://你的網址/admin/`，貼上 token，按 Sign In。
 
-| 欄位 | 填什麼 |
-| --- | --- |
-| Application name | 隨便，例如 `kimmy-site admin` |
-| Homepage URL | 你的網站網址 |
-| Authorization callback URL | `<Worker 網址>/callback` ← **注意結尾要有 `/callback`** |
+token 存在瀏覽器的 local storage，只在你這台裝置上。換電腦、清瀏覽器資料、
+或 token 過期，就重新貼一次。
 
-建立後會拿到 **Client ID**，再按一次按鈕產生 **Client Secret**（只會顯示一次）。
+> 別把 token 貼進任何檔案再 commit——它只該存在瀏覽器裡。
 
-### 步驟三：把金鑰放進 Worker
+### 方式二：正式的 OAuth 流程（要部署一個 Worker）
 
-Cloudflare Dashboard → 你的 Worker → **Settings** → **Variables and Secrets**，新增：
+想要「Sign in with GitHub」那種一鍵登入，就得自己跑一個 OAuth 中介服務。
+官方有現成的，部署到 Cloudflare Workers，免費。
 
-| 名稱 | 值 |
-| --- | --- |
-| `GITHUB_CLIENT_ID` | 剛剛的 Client ID |
-| `GITHUB_CLIENT_SECRET` | 剛剛的 Client Secret（按 **Encrypt**） |
-| `ALLOWED_DOMAINS` | 你的網站網域，例如 `kimmy.dev`（防止別人拿你的 Worker 去用） |
+1. 到 [github.com/sveltia/sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth)，
+   按 README 裡的 **Deploy to Cloudflare Workers**。記下拿到的網址。
+2. 到 <https://github.com/settings/applications/new> 註冊 OAuth App：
 
-### 步驟四：改後台設定
+   | 欄位 | 填什麼 |
+   | --- | --- |
+   | Application name | 隨便，例如 `kimmy-site admin` |
+   | Homepage URL | 你的網站網址 |
+   | Authorization callback URL | `<Worker 網址>/callback` ← **結尾要有 `/callback`** |
 
-編輯 `public/admin/config.yml` 最上面三行：
+3. Cloudflare Dashboard → 你的 Worker → **Settings → Variables and Secrets**：
 
-```yaml
-backend:
-  name: github
-  repo: <你的帳號>/kimmy-site       # ← 改這裡
-  branch: main
-  base_url: https://sveltia-cms-auth.<你的帳號>.workers.dev   # ← 和這裡
-```
+   | 名稱 | 值 |
+   | --- | --- |
+   | `GITHUB_CLIENT_ID` | OAuth App 的 Client ID |
+   | `GITHUB_CLIENT_SECRET` | Client Secret（按 **Encrypt**） |
+   | `ALLOWED_DOMAINS` | 你的網站網域，防止別人拿你的 Worker 去用 |
 
-push 上去，等 Cloudflare 重新建置，然後開 `https://你的網域/admin`。
+4. 改 `public/admin/config.yml` 的 `backend` 區塊：
 
-按 **Sign in with GitHub**，授權，就進去了。手機瀏覽器也能用。
+   ```yaml
+   backend:
+     name: github
+     repo: KimmyTsai/kimmy-site
+     branch: main
+     auth_methods: [oauth, token]                              # 兩種都留
+     base_url: https://sveltia-cms-auth.<你的帳號>.workers.dev   # 加這行
+   ```
 
-> 上面這四步是**正式上線**用的。如果你只是想先看看後台長什麼樣，跳到下一節，不用做任何設定。
-
----
+push 上去，等 Cloudflare 重建完就生效了。
 
 ## 先在自己電腦上試後台（不用部署、不用 OAuth）
 
