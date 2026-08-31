@@ -7,6 +7,6 @@ result: 報名送件
 highlight: false
 role: FPGA 整合與硬體測試
 stack: [RISC-V, Verilog, FPGA, 後量子密碼]
-summary: 以畢業專題的 SLH-DSA RISC-V 指令集擴充（SHACK-256）作為參賽作品。
+summary: 以畢業專題的 SLH-DSA RISC-V 指令集擴充（SHAKE-256）作為參賽作品。
 draft: false
 ---
