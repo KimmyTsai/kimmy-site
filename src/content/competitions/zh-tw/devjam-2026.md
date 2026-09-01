@@ -4,7 +4,7 @@ title: 2026 DevJam 黑客松
 host: Google Cloud 賽道
 date: 2026-08-17
 result: 入圍決賽
-highlight: false
+highlight: true
 team: 四人團隊
 role: 題目發想、系統設計
 stack:
