@@ -3,7 +3,7 @@ slug: devjam-2026
 title: 2026 DevJam Hackathon
 host: Google Cloud track
 date: 2026-08-17
-result: In progress
+result: Finalist
 highlight: true
 team: Team of four
 role: Concept, system design
